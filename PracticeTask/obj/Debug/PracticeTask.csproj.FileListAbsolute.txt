@@ -1,0 +1,16 @@
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\PracticeTask.exe.config
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\PracticeTask.exe
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\PracticeTask.pdb
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.AssemblyReference.cache
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.SuggestedBindingRedirects.cache
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\MainWindow.g.cs
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\App.g.cs
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask_MarkupCompile.cache
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask_MarkupCompile.lref
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\MainWindow.baml
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.g.resources
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.Properties.Resources.resources
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.GenerateResource.cache
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.CoreCompileInputs.cache
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.exe
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.pdb
