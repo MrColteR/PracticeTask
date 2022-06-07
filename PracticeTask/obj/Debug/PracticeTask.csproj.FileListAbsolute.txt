@@ -14,3 +14,11 @@ C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTa
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.CoreCompileInputs.cache
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.exe
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.pdb
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\SetupWindow.g.cs
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\SetupWindow.baml
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\Newtonsoft.Json.dll
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\Newtonsoft.Json.xml
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.CopyComplete
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\TestWindow.g.cs
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\TestWindow.baml

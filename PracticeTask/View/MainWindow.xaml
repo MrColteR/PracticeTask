@@ -4,9 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PracticeTask"
+        xmlns:vm="clr-namespace:PracticeTask.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow"
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Grid.Row="0"
+                Height="40"
+                Width="100"
+                Margin="0,0,0,5"
+                Content="Начать"
+                Command="{Binding StartTest}"/>
+        <Button HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Grid.Row="1"
+                Height="40"
+                Width="100"
+                Margin="0,5,0,0"
+                Content="Настройки"
+                Command="{Binding OpenSetup}"/>
     </Grid>
 </Window>
