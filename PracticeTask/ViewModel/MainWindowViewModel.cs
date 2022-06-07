@@ -15,7 +15,7 @@ namespace PracticeTask.ViewModel
             SetupWindow window = new SetupWindow();
             window.ShowDialog();
         }));
-        private RelayCommand startTest;
+        private RelayCommand startTest; 
         public RelayCommand StartTest => startTest ?? (startTest = new RelayCommand(obj => 
         {
             TestWindow window = new TestWindow();

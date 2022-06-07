@@ -5,11 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PracticeTask.View"
         xmlns:vm="clr-namespace:PracticeTask.ViewModel"
+        xmlns:lctr="clr-namespace:PracticeTask.Container"
         mc:Ignorable="d"
         Title="SetupWindow"
         Height="450"
         Width="300"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <x:Static Member="lctr:LocatorStatic.Data" x:Key="Container"/>
+    </Window.Resources>
     <Window.DataContext>
         <vm:SetupWindowViewModel/>
     </Window.DataContext>
@@ -27,17 +31,17 @@
                    Text="Кол-во активных кружков"/>
         <TextBox Name="CountActiveCircle"
                  Grid.Row="1"
-                 Text="{Binding CountActiveCircle}"/>
+                 Text="{Binding CountActiveCircle, Source={StaticResource Container}, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Row="2"
                    Text="Кол-во кружков"/>
         <TextBox Name="CountCircle"
                  Grid.Row="3"
-                 Text="{Binding CountCircle}"/>
+                 Text="{Binding CountCircle, Source={StaticResource Container}, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBlock Grid.Row="4"
                    Text="Скорость кружков"/>
         <TextBox Name="Speed"
                  Grid.Row="5"
-                 Text="{Binding Speed}"/>
+                 Text="{Binding Speed, Source={StaticResource Container}, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Grid.Row="6"
                 Content="Save"
                 Command="{Binding SaveSetting}"
