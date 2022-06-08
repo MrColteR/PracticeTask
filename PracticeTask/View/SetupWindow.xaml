@@ -4,19 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PracticeTask.View"
-        xmlns:vm="clr-namespace:PracticeTask.ViewModel"
-        xmlns:lctr="clr-namespace:PracticeTask.Container"
         mc:Ignorable="d"
         Title="SetupWindow"
         Height="450"
         Width="300"
         WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <x:Static Member="lctr:LocatorStatic.Data" x:Key="Container"/>
-    </Window.Resources>
-    <Window.DataContext>
-        <vm:SetupWindowViewModel/>
-    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -27,24 +19,40 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.ColumnSpan="2"
+                   Grid.Row="0"
                    Text="Кол-во активных кружков"/>
         <TextBox Name="CountActiveCircle"
+                 Grid.ColumnSpan="2"
                  Grid.Row="1"
-                 Text="{Binding CountActiveCircle, Source={StaticResource Container}, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Grid.Row="2"
+                 Text="{Binding CountActiveCircle, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.ColumnSpan="2"
+                   Grid.Row="2"
                    Text="Кол-во кружков"/>
         <TextBox Name="CountCircle"
+                 Grid.ColumnSpan="2"
                  Grid.Row="3"
-                 Text="{Binding CountCircle, Source={StaticResource Container}, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Grid.Row="4"
+                 Text="{Binding CountCircle, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Grid.ColumnSpan="2"
+                   Grid.Row="4"
                    Text="Скорость кружков"/>
         <TextBox Name="Speed"
+                 Grid.ColumnSpan="2"
                  Grid.Row="5"
-                 Text="{Binding Speed, Source={StaticResource Container}, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Grid.Row="6"
-                Content="Save"
+                 Text="{Binding Speed, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Column="0"
+                Grid.Row="6"
+                Content="Сохранить"
                 Command="{Binding SaveSetting}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+        <Button Grid.Column="1"
+                Grid.Row="6"
+                Content="Назад"
+                Command="{Binding CloseSetting}"
                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
     </Grid>
 </Window>

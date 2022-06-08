@@ -38,6 +38,9 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
@@ -62,8 +65,10 @@
     <Compile Include="Container\Base\OnPropertyChangedClass.cs" />
     <Compile Include="Container\DataContainer.cs" />
     <Compile Include="Container\LocatorStatic.cs" />
+    <Compile Include="ICloseWindow.cs" />
     <Compile Include="JsonFileService.cs" />
     <Compile Include="Model\Setting.cs" />
+    <Compile Include="ViewModel\Base\ViewModelBase.cs" />
     <Compile Include="ViewModel\SetupWindowViewModel.cs" />
     <Compile Include="View\SetupWindow.xaml.cs">
       <DependentUpon>SetupWindow.xaml</DependentUpon>

@@ -12,6 +12,8 @@ namespace PracticeTask
         private Action<object> execute;
         private Func<object, bool> canExecute;
 
+        public Action Close { get; }
+
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
@@ -22,6 +24,11 @@ namespace PracticeTask
         {
             this.execute = execute;
             this.canExecute = canExecute;
+        }
+
+        public RelayCommand(Action close)
+        {
+            Close = close;
         }
 
         public bool CanExecute(object parameter)

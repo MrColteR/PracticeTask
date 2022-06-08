@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PracticeTask.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,22 @@ namespace PracticeTask.View
     /// </summary>
     public partial class SetupWindow : Window
     {
-        public SetupWindow()
+        public SetupWindow(Model.Setting setting)
         {
             InitializeComponent();
+            DataContext = new SetupWindowViewModel(setting);
+            Loaded += SetupWindow_Loaded;
+        }
+
+        private void SetupWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is ICloseWindow vm)
+            {
+                vm.Close += () =>
+                {
+                    Close();
+                };
+            }
         }
     }
 }

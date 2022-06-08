@@ -1,37 +1,82 @@
 ﻿using PracticeTask.Model;
 using PracticeTask.View;
+using PracticeTask.ViewModel.Base;
+using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PracticeTask.ViewModel
 {
-    public class SetupWindowViewModel
+    public class SetupWindowViewModel : ViewModelBase, ICloseWindow
     {
         private static readonly string path = Directory.GetCurrentDirectory();
         private readonly string fileSetting = path.Substring(0, path.IndexOf("bin")) + "Setting.json";
         private readonly string fileCircle = path.Substring(0, path.IndexOf("bin")) + "Circle.json";
         private JsonFileService jsonFileService;
-        //public int CountActiveCircle { get; set; }
-        //public int CountCircle { get; set; }
-        //public int Speed { get; set; }
-        private RelayCommand saveSetting;
-        public RelayCommand SaveSetting => saveSetting ?? (saveSetting = new RelayCommand(obj =>
+
+        private int countActiveCircle;
+        public int CountActiveCircle { get { return countActiveCircle; }
+            set 
+            {
+                countActiveCircle = value;
+                OnPropertyChanged(nameof(CountActiveCircle));
+            }
+        }
+        private int countCircle;
+        public int CountCircle { get { return countCircle; }
+            set 
+            {
+                countCircle = value;
+                OnPropertyChanged(nameof(CountCircle));
+            }
+        }
+        private int speed;
+        public int Speed { get { return speed; } 
+            set 
+            {
+                speed = value;
+                OnPropertyChanged(nameof(Speed));
+            } 
+        }
+
+        public Action Close { get; set; }
+        void CloseAndSave()
         {
-            SetupWindow wnd = obj as SetupWindow;
             jsonFileService = new JsonFileService();
-            jsonFileService.SaveSetting(fileSetting, new Setting(Convert.ToInt32(wnd.CountCircle.Text), Convert.ToInt32(wnd.CountActiveCircle.Text), Convert.ToInt32(wnd.Speed.Text)));
-            wnd.Close();
-        }));
-        public SetupWindowViewModel()
+            jsonFileService.SaveSetting(fileSetting, new Setting(CountCircle, CountActiveCircle, Speed));
+            Close?.Invoke();
+        }
+        void CloseWindow()
+        {
+            Close?.Invoke();
+        }
+
+        private DelegateCommand saveSetting;
+        public DelegateCommand SaveSetting => saveSetting ?? (saveSetting = new DelegateCommand(CloseAndSave));
+        //{
+        //    SetupWindow wnd = obj as SetupWindow;
+        //    jsonFileService = new JsonFileService();
+        //    jsonFileService.SaveSetting(fileSetting, new Setting(CountCircle, CountActiveCircle, Speed));
+        //    wnd.Close();
+        //}));
+        private DelegateCommand closeSetting;
+        public DelegateCommand CloseSetting => closeSetting ?? (closeSetting = new DelegateCommand(CloseWindow));
+        //{
+        //    SetupWindow wnd = obj as SetupWindow;
+        //    wnd.Close();
+        //}));
+        
+        public SetupWindowViewModel(Model.Setting setting)
         {
             jsonFileService = new JsonFileService();
-            //CountActiveCircle = jsonFileService.OpenSetting(fileSetting).CountActiveCircle;
-            //CountCircle = jsonFileService.OpenSetting(fileSetting).CountCircle;
-            //Speed = jsonFileService.OpenSetting(fileSetting).Speed;
+            CountActiveCircle = setting.CountActiveCircle;
+            Speed = setting.Speed;
+            CountCircle = setting.CountCircle;
         }
     }
 }
