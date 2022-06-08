@@ -11,6 +11,103 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Canvas>
+            <Canvas.Resources>
+                <PathGeometry x:Key="my_path">
+                    <PathFigure IsClosed="True" StartPoint="10,10">
+                        <ArcSegment Point="10,310"/>
+                        <ArcSegment Point="310,310"/>
+                        <ArcSegment Point="310,10"/>
+                        <ArcSegment Point="10,10"/>
+                    </PathFigure>
+                </PathGeometry>
+                <PathGeometry x:Key="my_path2">
+                    <PathFigure IsClosed="True" StartPoint="20,20">
+                        <ArcSegment Point="20,320"/>
+                        <ArcSegment Point="320,320"/>
+                        <ArcSegment Point="320,20"/>
+                        <ArcSegment Point="20,20"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Canvas.Resources>
+            <Path Grid.ColumnSpan="2" 
+                  Stroke="LightBlue"
+                  StrokeThickness="2"
+                  Data="{StaticResource my_path}"
+                  Canvas.Left="10"
+                  Canvas.Top="10"/>
+            <Path Grid.ColumnSpan="2" 
+                  Stroke="Blue"
+                  StrokeThickness="2"
+                  Data="{StaticResource my_path2}"
+                  Canvas.Left="10"
+                  Canvas.Top="10"/>
+            <Ellipse Width="20"
+                     Height="20"
+                     Fill="red"
+                     Canvas.Left="10"
+                     Canvas.Top="10">
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Window.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimationUsingPath Storyboard.TargetProperty="(Canvas.Left)"
+                                                              PathGeometry="{StaticResource my_path}"
+                                                              Duration="0:0:10"
+                                                              RepeatBehavior="Forever"
+                                                              Source="X"/>
+                                    <DoubleAnimationUsingPath Storyboard.TargetProperty="(Canvas.Top)"
+                                                              PathGeometry="{StaticResource my_path}"
+                                                              Duration="0:0:10"
+                                                              RepeatBehavior="Forever"
+                                                              Source="Y"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+            <Ellipse Width="20"
+                     Height="20"
+                     Fill="Gray"
+                     Canvas.Left="20"
+                     Canvas.Top="20">
+                <Ellipse.Triggers>
+                    <EventTrigger RoutedEvent="Window.Loaded">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimationUsingPath Storyboard.TargetProperty="(Canvas.Left)"
+                                                              PathGeometry="{StaticResource my_path2}"
+                                                              Duration="0:0:12"
+                                                              RepeatBehavior="Forever"
+                                                              Source="X"/>
+                                    <DoubleAnimationUsingPath Storyboard.TargetProperty="(Canvas.Top)"
+                                                              PathGeometry="{StaticResource my_path2}"
+                                                              Duration="0:0:12"
+                                                              RepeatBehavior="Forever"
+                                                              Source="Y"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </Ellipse.Triggers>
+            </Ellipse>
+        </Canvas>
+        <Button Grid.Column="0"
+                Grid.Row="1"
+                Content="Начать"/>
+        <Button Grid.Column="1"
+                Grid.Row="2"
+                Content="Закрыть"/>
     </Grid>
 </Window>

@@ -4,7 +4,6 @@ C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTa
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\SetupWindow.g.cs
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\TestWindow.g.cs
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\App.g.cs
-C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask_MarkupCompile.cache
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask_MarkupCompile.lref
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\PracticeTask.exe.config
