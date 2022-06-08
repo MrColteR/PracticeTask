@@ -12,71 +12,72 @@ using System.Windows;
 
 namespace PracticeTask.ViewModel
 {
-    public class SetupWindowViewModel : ViewModelBase, ICloseWindow
+    public class SetupWindowViewModel : ViewModelBase
     {
-        private static readonly string path = Directory.GetCurrentDirectory();
-        private readonly string fileSetting = path.Substring(0, path.IndexOf("bin")) + "Setting.json";
-        private readonly string fileCircle = path.Substring(0, path.IndexOf("bin")) + "Circle.json";
-        private JsonFileService jsonFileService;
+        private Setting Setting { get; set; }
+        private MainWindowViewModel mainWindowViewModel;
+        public event Action Closing;
 
         private int countActiveCircle;
         public int CountActiveCircle { get { return countActiveCircle; }
             set 
             {
-                countActiveCircle = value;
-                OnPropertyChanged(nameof(CountActiveCircle));
+                if (CountActiveCircle != value)
+                {
+                    countActiveCircle = value;
+                    OnPropertyChanged(nameof(CountActiveCircle));
+                }
             }
         }
         private int countCircle;
         public int CountCircle { get { return countCircle; }
             set 
             {
-                countCircle = value;
-                OnPropertyChanged(nameof(CountCircle));
+                if (CountCircle != value)
+                {
+                    countCircle = value;
+                    OnPropertyChanged(nameof(CountCircle));
+                }
             }
         }
         private int speed;
         public int Speed { get { return speed; } 
             set 
             {
-                speed = value;
-                OnPropertyChanged(nameof(Speed));
+                if (Speed != value)
+                {
+                    speed = value;
+                    OnPropertyChanged(nameof(Speed));
+                }
             } 
         }
 
-        public Action Close { get; set; }
         void CloseAndSave()
         {
-            jsonFileService = new JsonFileService();
-            jsonFileService.SaveSetting(fileSetting, new Setting(CountCircle, CountActiveCircle, Speed));
-            Close?.Invoke();
-        }
-        void CloseWindow()
-        {
-            Close?.Invoke();
+            Setting.Speed = Speed;
+            Setting.CountCircle = CountCircle;
+            Setting.CountActiveCircle = CountActiveCircle;
+            mainWindowViewModel.Setting = Setting;
+            DelegateCommand command = new DelegateCommand(Closing);
+            command.Execute();
         }
 
-        private DelegateCommand saveSetting;
-        public DelegateCommand SaveSetting => saveSetting ?? (saveSetting = new DelegateCommand(CloseAndSave));
-        //{
-        //    SetupWindow wnd = obj as SetupWindow;
-        //    jsonFileService = new JsonFileService();
-        //    jsonFileService.SaveSetting(fileSetting, new Setting(CountCircle, CountActiveCircle, Speed));
-        //    wnd.Close();
-        //}));
-        private DelegateCommand closeSetting;
-        public DelegateCommand CloseSetting => closeSetting ?? (closeSetting = new DelegateCommand(CloseWindow));
-        //{
-        //    SetupWindow wnd = obj as SetupWindow;
-        //    wnd.Close();
-        //}));
-        
-        public SetupWindowViewModel(Model.Setting setting)
+        private RelayCommand saveSetting;
+        public RelayCommand SaveSetting => saveSetting ?? (saveSetting = new RelayCommand(obj =>
         {
-            jsonFileService = new JsonFileService();
-            CountActiveCircle = setting.CountActiveCircle;
-            Speed = setting.Speed;
-            CountCircle = setting.CountCircle;
+            CloseAndSave();
+        }));
+
+        private DelegateCommand closeSetting;
+        public DelegateCommand CloseSetting => closeSetting ?? (closeSetting = new DelegateCommand(Closing));
+                
+        public SetupWindowViewModel(MainWindowViewModel mainWindowViewModel)
+        {
+            this.mainWindowViewModel = mainWindowViewModel;
+            Setting = mainWindowViewModel.Setting;
+            CountActiveCircle = Setting.CountActiveCircle;
+            Speed = Setting.Speed;
+            CountCircle = Setting.CountCircle;
         }
     }
 }

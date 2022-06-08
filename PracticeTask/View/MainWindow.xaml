@@ -10,9 +10,6 @@
         Height="450"
         Width="800"
         WindowStartupLocation="CenterScreen">
-    <Window.DataContext>
-        <vm:MainWindowViewModel/>
-    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>

@@ -20,22 +20,15 @@ namespace PracticeTask.View
     /// </summary>
     public partial class SetupWindow : Window
     {
-        public SetupWindow(Model.Setting setting)
+        private SetupWindowViewModel viewModel;
+        public SetupWindow(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
-            DataContext = new SetupWindowViewModel(setting);
-            Loaded += SetupWindow_Loaded;
-        }
-
-        private void SetupWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (DataContext is ICloseWindow vm)
+            DataContext = viewModel = new SetupWindowViewModel(mainWindowViewModel);
+            viewModel.Closing += () =>
             {
-                vm.Close += () =>
-                {
-                    Close();
-                };
-            }
+                Close();
+            };
         }
     }
 }
