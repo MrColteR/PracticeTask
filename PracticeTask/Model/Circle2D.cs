@@ -11,12 +11,16 @@ namespace PracticeTask.Model
     public class Circle2D : Circle
     {
         //public override int Speed { get; set; }
-        public override int Radius { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        //public override int Radius { get; set; }
         public override bool IsActive { get; set; }
-        public Circle2D(/*int speed,*/ int radius, bool isActive) : base(/*speed,*/ radius, isActive)
+        public Circle2D(/*int speed,*/ /*int radius,*/int x, int y, bool isActive) : base(/*speed,*/ /*radius,*/ isActive)
         {
             //Speed = speed;
-            Radius = radius;
+            //Radius = radius;
+            X = x;
+            Y = y;
             IsActive = isActive;
         }
     }

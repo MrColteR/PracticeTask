@@ -12,12 +12,12 @@ namespace PracticeTask.Model.Base
     public class Circle : INotifyPropertyChanged
     {
         //public virtual int Speed { get; set; }
-        public virtual int Radius { get; set; }
+        //public virtual int Radius { get; set; }
         public virtual bool IsActive { get; set; }
-        public Circle(/*int speed,*/ int radius, bool isActive)
+        public Circle(/*int speed,*/ /*int radius,*/ bool isActive)
         {
             //Speed = speed;
-            Radius = radius;
+            //Radius = radius;
             IsActive = isActive;
         }
 

@@ -27,7 +27,7 @@ namespace PracticeTask.ViewModel
         private RelayCommand startTest; 
         public RelayCommand StartTest => startTest ?? (startTest = new RelayCommand(obj => 
         {
-            TestWindow window = new TestWindow();
+            TestWindow window = new TestWindow(ViewModel);
             window.Show();
         }));
 

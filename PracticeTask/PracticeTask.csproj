@@ -65,10 +65,13 @@
     <Compile Include="Container\Base\OnPropertyChangedClass.cs" />
     <Compile Include="Container\DataContainer.cs" />
     <Compile Include="Container\LocatorStatic.cs" />
+    <Compile Include="ConverterHeight.cs" />
+    <Compile Include="ConverterWidth.cs" />
     <Compile Include="JsonFileService.cs" />
     <Compile Include="Model\Setting.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
     <Compile Include="ViewModel\SetupWindowViewModel.cs" />
+    <Compile Include="ViewModel\TestWindowViewModel.cs" />
     <Compile Include="View\SetupWindow.xaml.cs">
       <DependentUpon>SetupWindow.xaml</DependentUpon>
     </Compile>

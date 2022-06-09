@@ -24,3 +24,4 @@ C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTa
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\Prism.dll
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\Prism.pdb
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\Prism.xml
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\GeneratedInternalTypeHelper.g.cs

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PracticeTask.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,15 @@ namespace PracticeTask.View
     /// </summary>
     public partial class TestWindow : Window
     {
-        public TestWindow()
+        private TestWindowViewModel vm;
+        public TestWindow(MainWindowViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = vm = new TestWindowViewModel(viewModel);
+            vm.Closing += () =>
+            {
+                Close();
+            };
         }
     }
 }
