@@ -35,8 +35,9 @@ namespace PracticeTask.View
 
         private void TestWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            viewModel.Height = ActualHeight;
-            viewModel.Width = ActualWidth;
+            viewModel.HeightItemsControl = ItemsControl.ActualHeight;
+            viewModel.WidthItemsControl = ItemsControl.ActualWidth;
+            viewModel.SizeCircle = ItemsControl.ActualHeight / 15;
             viewModel.CreateElipse(viewModel.Setting.CountCircle);
         }
     }

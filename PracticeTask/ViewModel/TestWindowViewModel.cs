@@ -36,19 +36,24 @@ namespace PracticeTask.ViewModel
             set { setting = value; }
         }
 
-        private double height;
-        public double Height
+        private double heightItemsControl;
+        public double HeightItemsControl
         {
-            get { return height; }
-            set { height = value; OnPropertyChanged(nameof(Height)); }
+            get { return heightItemsControl; }
+            set { heightItemsControl = value; OnPropertyChanged(nameof(HeightItemsControl)); }
         }
-        private double width;
-        public double Width
+        private double widthItemsControl;
+        public double WidthItemsControl
         {
-            get { return width; }
-            set { width = value; OnPropertyChanged(nameof(Width)); }
+            get { return widthItemsControl; }
+            set { widthItemsControl = value; OnPropertyChanged(nameof(WidthItemsControl)); }
         }
-
+        private double sizeCircle;
+        public double SizeCircle
+        {
+            get { return sizeCircle; }
+            set { sizeCircle = value; OnPropertyChanged(nameof(SizeCircle)); }
+        }
 
         private DelegateCommand closeTest;
         public DelegateCommand CloseTest => closeTest ?? (closeTest = new DelegateCommand(Closing));
@@ -75,21 +80,21 @@ namespace PracticeTask.ViewModel
                         Circles[i].X += vectorX[i];
                         Circles[i].Y += vectorY[i];
 
-                        if (Circles[i].X >= Width - 50 || Circles[i].X <= 0)
+                        if (Circles[i].X >= WidthItemsControl - SizeCircle || Circles[i].X <= 0)
                         {
                             vectorX[i] = -vectorX[i];
                         }
-                        if (Circles[i].Y >= Height - 150 || Circles[i].Y <= 0)
+                        if (Circles[i].Y >= HeightItemsControl - SizeCircle || Circles[i].Y <= 0)
                         {
                             vectorY[i] = -vectorY[i];
                         }
                     }
                     
-                    await Task.Delay(Setting.Speed);
+                    await Task.Delay(40);
                     a++;
                 }
             });
-            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Interval = new TimeSpan(0, 0, 2);
             timer.Start();
         }));
 
@@ -102,16 +107,15 @@ namespace PracticeTask.ViewModel
             this.viewModel = viewModel;
             Circles = jsonFileService.Open2D(fileCircles);
             Setting = viewModel.Setting;
-
             //CreateElipse(viewModel.Setting.CountCircle);
         }   
         public void CreateElipse(int count)
         {
             for (int i = 0; i < count; i++)
             {
-                Circles.Add(new Circle2D(random.Next(10, Convert.ToInt32(Width - 20)),
-                                         random.Next(10, Convert.ToInt32(Height - 20)),
-                                         false, false));
+                Circles.Add(new Circle2D(random.Next((int)SizeCircle, Convert.ToInt32(WidthItemsControl - SizeCircle)),
+                                         random.Next((int)SizeCircle, Convert.ToInt32(HeightItemsControl - SizeCircle)),
+                                         HeightItemsControl, false, false));
             }
         }
         private int GetRandomDirection()
@@ -120,9 +124,9 @@ namespace PracticeTask.ViewModel
             switch (direction)
                 {
                     case 1:
-                    return 2;
+                    return 1;
                     default:
-                    return -2;
+                    return -1;
                 }
         }
     }

@@ -14,8 +14,7 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized">
     <Window.Resources>
-        <convHeight:ConverterHeight x:Key="ConverterHeight"/>
-        <convWidth:ConverterWidth x:Key="ConverterWidth"/>
+        <convHeight:ConverterSize x:Key="ConverterSize"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -26,13 +25,14 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ItemsControl Grid.ColumnSpan="2"
+        <ItemsControl Name="ItemsControl"
+                      Grid.ColumnSpan="2"
                       ItemsSource="{Binding Circles}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Canvas x:Name="Canvas">
-                        <Ellipse Width="{Binding Width, Converter={StaticResource ConverterWidth}}"
-                                 Height="{Binding Height, Converter={StaticResource ConverterHeight}}"
+                        <Ellipse Width="{Binding HeightWindow, Converter={StaticResource ConverterSize}}"
+                                 Height="{Binding HeightWindow, Converter={StaticResource ConverterSize}}"
                                  Canvas.Left="{Binding X}"
                                  Canvas.Top="{Binding Y}">
                             <Ellipse.Resources>
@@ -45,6 +45,9 @@
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Fill" Value="Yellow"/>
                                         </Trigger>
+                                        <Trigger Property="IsFocused" Value="True">
+                                            <Setter Property="Fill" Value="Green"/>
+                                        </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Ellipse.Resources>
@@ -53,7 +56,8 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button Grid.Column="0"
+        <Button x:Name="Button"
+                Grid.Column="0"
                 Grid.Row="1"
                 Content="Начать"
                 Command="{Binding Start}"/>

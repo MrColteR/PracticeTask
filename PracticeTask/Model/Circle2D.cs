@@ -60,6 +60,16 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(IsActive));
             }
         }
+        private double heightWindow;
+        public double HeightWindow
+        {
+            get => heightWindow;
+            set
+            {
+                heightWindow = value;
+                OnPropertyChanged(nameof(HeightWindow));
+            }
+        }
         private bool isActiveColor;
         public override bool IsActiveColor
         {
@@ -70,10 +80,11 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(IsActiveColor));
             }
         }
-        public Circle2D(int x, int y, bool isActive, bool isActiveColor) : base(isActive, isActiveColor)
+        public Circle2D(int x, int y, double heightWindow, bool isActive, bool isActiveColor) : base(isActive, isActiveColor)
         {
             X = x;
             Y = y;
+            HeightWindow = heightWindow;
             IsActive = isActive;
             IsActiveColor = isActiveColor;
         }

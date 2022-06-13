@@ -65,8 +65,7 @@
     <Compile Include="Container\Base\OnPropertyChangedClass.cs" />
     <Compile Include="Container\DataContainer.cs" />
     <Compile Include="Container\LocatorStatic.cs" />
-    <Compile Include="ConverterHeight.cs" />
-    <Compile Include="ConverterWidth.cs" />
+    <Compile Include="ConverterSize.cs" />
     <Compile Include="JsonFileService.cs" />
     <Compile Include="Model\Setting.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />

@@ -8,11 +8,11 @@ using System.Windows.Data;
 
 namespace PracticeTask
 {
-    internal class ConverterWidth : IValueConverter
+    internal class ConverterSize : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (int)value;
+            return (double)value/15;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
