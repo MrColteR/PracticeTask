@@ -30,20 +30,33 @@
                       ItemsSource="{Binding Circles}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Canvas>
-                        <Ellipse Width="{Binding Source={x:Static vm:TestWindowViewModel.W}, Converter={StaticResource ConverterWidth}}"
-                                 Height="{Binding Height1, Converter={StaticResource ConverterWidth}, UpdateSourceTrigger=PropertyChanged}"
+                    <Canvas x:Name="Canvas">
+                        <Ellipse Width="{Binding Width, Converter={StaticResource ConverterWidth}}"
+                                 Height="{Binding Height, Converter={StaticResource ConverterHeight}}"
                                  Canvas.Left="{Binding X}"
-                                 Canvas.Top="{Binding Y}"
-                                 Fill="Red"/>
+                                 Canvas.Top="{Binding Y}">
+                            <Ellipse.Resources>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="Fill" Value="Red"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsActiveColor}" Value="true">
+                                            <Setter Property="Fill" Value="Yellow"/>
+                                        </DataTrigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Fill" Value="Yellow"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Resources>
+                        </Ellipse>
                     </Canvas>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-            
         </ItemsControl>
         <Button Grid.Column="0"
                 Grid.Row="1"
-                Content="Начать"/>
+                Content="Начать"
+                Command="{Binding Start}"/>
         <Button Grid.Column="1"
                 Grid.Row="2"
                 Content="Закрыть"

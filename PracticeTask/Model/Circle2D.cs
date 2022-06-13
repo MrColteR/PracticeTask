@@ -10,18 +10,72 @@ namespace PracticeTask.Model
 {
     public class Circle2D : Circle
     {
-        //public override int Speed { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
-        //public override int Radius { get; set; }
-        public override bool IsActive { get; set; }
-        public Circle2D(/*int speed,*/ /*int radius,*/int x, int y, bool isActive) : base(/*speed,*/ /*radius,*/ isActive)
+        private double x;
+        public double X 
+        { 
+            get => x;
+            set 
+            {
+                x = value;
+                OnPropertyChanged(nameof(X));
+            }
+        }
+        private double y;
+        public double Y
         {
-            //Speed = speed;
-            //Radius = radius;
+            get => y;
+            set
+            {
+                y = value;
+                OnPropertyChanged(nameof(Y));
+            }
+        }
+        private int height;
+        public int Height
+        {
+            get => height = 50;
+            set
+            {
+                height = value;
+                OnPropertyChanged(nameof(Height));
+            }
+        }
+        private int width;
+        public int Width
+        {
+            get => width = 50;
+            set
+            {
+                width = value;
+                OnPropertyChanged(nameof(Width));
+            }
+        }
+        private bool isActive;
+        public override bool IsActive
+        {
+            get => isActive;
+            set
+            {
+                isActive = value;
+                OnPropertyChanged(nameof(IsActive));
+            }
+        }
+        private bool isActiveColor;
+        public override bool IsActiveColor
+        {
+            get => isActiveColor;
+            set
+            {
+                isActiveColor = value;
+                OnPropertyChanged(nameof(IsActiveColor));
+            }
+        }
+        public Circle2D(int x, int y, bool isActive, bool isActiveColor) : base(isActive, isActiveColor)
+        {
             X = x;
             Y = y;
             IsActive = isActive;
+            IsActiveColor = isActiveColor;
         }
     }
 }

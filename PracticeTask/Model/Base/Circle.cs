@@ -11,14 +11,12 @@ namespace PracticeTask.Model.Base
     [DataContract]
     public class Circle : INotifyPropertyChanged
     {
-        //public virtual int Speed { get; set; }
-        //public virtual int Radius { get; set; }
         public virtual bool IsActive { get; set; }
-        public Circle(/*int speed,*/ /*int radius,*/ bool isActive)
+        public virtual bool IsActiveColor { get; set; }
+        public Circle(bool isActive, bool isActiveColor)
         {
-            //Speed = speed;
-            //Radius = radius;
             IsActive = isActive;
+            IsActiveColor = isActiveColor;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

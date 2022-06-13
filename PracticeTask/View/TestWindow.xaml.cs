@@ -21,15 +21,23 @@ namespace PracticeTask.View
     /// </summary>
     public partial class TestWindow : Window
     {
-        private TestWindowViewModel vm;
-        public TestWindow(MainWindowViewModel viewModel)
+        private TestWindowViewModel viewModel;
+        public TestWindow(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
-            DataContext = vm = new TestWindowViewModel(viewModel);
-            vm.Closing += () =>
+            Loaded += TestWindow_Loaded;
+            DataContext = viewModel = new TestWindowViewModel(mainWindowViewModel);
+            viewModel.Closing += () =>
             {
                 Close();
             };
+        }
+
+        private void TestWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            viewModel.Height = ActualHeight;
+            viewModel.Width = ActualWidth;
+            viewModel.CreateElipse(viewModel.Setting.CountCircle);
         }
     }
 }
