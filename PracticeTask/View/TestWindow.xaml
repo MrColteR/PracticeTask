@@ -14,7 +14,7 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized">
     <Window.Resources>
-        <convHeight:ConverterSize x:Key="ConverterSize"/>
+        <convHeight:ConverterSize x:Key="multivalueConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -31,16 +31,28 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Canvas x:Name="Canvas">
-                        <Ellipse Width="{Binding HeightWindow, Converter={StaticResource ConverterSize}}"
-                                 Height="{Binding HeightWindow, Converter={StaticResource ConverterSize}}"
-                                 Canvas.Left="{Binding X}"
-                                 Canvas.Top="{Binding Y}">
+                        <Ellipse Width="{Binding SizeCircle}"
+                                 Height="{Binding SizeCircle}"
+                                 PreviewMouseDown="Ellipse_PreviewMouseDown">
+                            <Canvas.Left>
+                                <MultiBinding Converter="{StaticResource multivalueConverter}">
+                                    <Binding Path="X"/>
+                                    <Binding ElementName="ItemsControl" Path="ActualWidth"/>
+                                </MultiBinding>
+                            </Canvas.Left>
+                            <Canvas.Top>
+                                <MultiBinding Converter="{StaticResource multivalueConverter}">
+                                    <Binding Path="Y"/>
+                                    <Binding ElementName="ItemsControl" Path="ActualHeight"/>
+                                </MultiBinding>
+                            </Canvas.Top>
                             <Ellipse.Resources>
                                 <Style TargetType="Ellipse">
                                     <Setter Property="Fill" Value="Red"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsActiveColor}" Value="true">
-                                            <Setter Property="Fill" Value="Yellow"/>
+                                            <Setter Property="StrokeThickness" Value="2"/>
+                                            <Setter Property="Stroke" Value="Black"/>
                                         </DataTrigger>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Fill" Value="Yellow"/>

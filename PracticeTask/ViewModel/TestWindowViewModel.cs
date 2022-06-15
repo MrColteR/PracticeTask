@@ -20,6 +20,9 @@ namespace PracticeTask.ViewModel
         private JsonFileService jsonFileService;
         private Random random;
         private DispatcherTimer timer;
+        private List<double> vectorX;
+        private List<double> vectorY;
+
         public event Action Closing;
 
         private ObservableCollection<Circle2D> circles;
@@ -28,14 +31,12 @@ namespace PracticeTask.ViewModel
             get { return circles; }
             set { circles = value; }
         }
-
         private Setting setting;
         public Setting Setting
         {
             get { return setting; }
             set { setting = value; }
         }
-
         private double heightItemsControl;
         public double HeightItemsControl
         {
@@ -48,11 +49,11 @@ namespace PracticeTask.ViewModel
             get { return widthItemsControl; }
             set { widthItemsControl = value; OnPropertyChanged(nameof(WidthItemsControl)); }
         }
-        private double sizeCircle;
-        public double SizeCircle
+        private static double sizeCircle;
+        public static double SizeCircle
         {
             get { return sizeCircle; }
-            set { sizeCircle = value; OnPropertyChanged(nameof(SizeCircle)); }
+            set { sizeCircle = value; }
         }
 
         private DelegateCommand closeTest;
@@ -62,13 +63,12 @@ namespace PracticeTask.ViewModel
         public RelayCommand Start => start ?? (start = new RelayCommand(obj =>
         {
             int a = 0;
-            List<double> vectorX = new List<double>();
-            List<double> vectorY = new List<double>();
 
             for (int i = 0; i < Circles.Count; i++)
             {
                 vectorX.Add(GetRandomDirection());
                 vectorY.Add(GetRandomDirection());
+                Circles[i].IsActiveColor = false;
             }
 
             timer.Tick += new EventHandler(async (object obje, EventArgs e) =>
@@ -79,22 +79,32 @@ namespace PracticeTask.ViewModel
                     {
                         Circles[i].X += vectorX[i];
                         Circles[i].Y += vectorY[i];
-
-                        if (Circles[i].X >= WidthItemsControl - SizeCircle || Circles[i].X <= 0)
+                        if (Circles[i].X >= 1 - (1 * SizeCircle / WidthItemsControl) || Circles[i].X <= 0)
                         {
                             vectorX[i] = -vectorX[i];
                         }
-                        if (Circles[i].Y >= HeightItemsControl - SizeCircle || Circles[i].Y <= 0)
+                        if (Circles[i].Y >= 1 - (1 * SizeCircle / HeightItemsControl) || Circles[i].Y <= 0)
                         {
                             vectorY[i] = -vectorY[i];
                         }
+                        for (int j = i + 1; j < Circles.Count - 1; j++)
+                        {
+                            if (Math.Sqrt(Math.Pow(Circles[i].X * WidthItemsControl - Circles[j].X * WidthItemsControl, 2) +
+                                Math.Pow(Circles[i].Y * HeightItemsControl - Circles[j].Y * HeightItemsControl, 2)) <= SizeCircle - 1)
+                            {
+                                vectorX[i] = -vectorX[i];
+                                vectorY[i] = -vectorY[i];
+                                vectorX[j] = -vectorX[j];
+                                vectorY[j] = -vectorY[j];
+                            }
+                        }
                     }
                     
-                    await Task.Delay(40);
+                    await Task.Delay(30);
                     a++;
                 }
             });
-            timer.Interval = new TimeSpan(0, 0, 2);
+            timer.Interval = new TimeSpan(0, 0, 1);
             timer.Start();
         }));
 
@@ -103,31 +113,65 @@ namespace PracticeTask.ViewModel
             random = new Random();
             jsonFileService = new JsonFileService();
             timer = new DispatcherTimer();
-            
+            vectorX = new List<double>();
+            vectorY = new List<double>();
+
             this.viewModel = viewModel;
             Circles = jsonFileService.Open2D(fileCircles);
             Setting = viewModel.Setting;
-            //CreateElipse(viewModel.Setting.CountCircle);
         }   
+        public TestWindowViewModel() { }
         public void CreateElipse(int count)
         {
+            SizeCircle = Math.Round(HeightItemsControl / 15);
+            var temp = 0;
             for (int i = 0; i < count; i++)
             {
-                Circles.Add(new Circle2D(random.Next((int)SizeCircle, Convert.ToInt32(WidthItemsControl - SizeCircle)),
-                                         random.Next((int)SizeCircle, Convert.ToInt32(HeightItemsControl - SizeCircle)),
-                                         HeightItemsControl, false, false));
+                if (Setting.CountActiveCircle > temp)
+                {
+                    Circles.Add(new Circle2D(GetRelativeCoordinate(), GetRelativeCoordinate(), SizeCircle, true, true));
+                    temp++;
+                }
+                else
+                {
+                    Circles.Add(new Circle2D(GetRelativeCoordinate(), GetRelativeCoordinate(), SizeCircle, false, false));
+                }
             }
         }
-        private int GetRandomDirection()
+        private double GetRandomDirection()
         {
             int direction = random.Next(1, 3);
             switch (direction)
                 {
                     case 1:
-                    return 1;
+                    return Setting.Speed;
                     default:
-                    return -1;
+                    return -Setting.Speed;
                 }
+        }
+
+        private double GetRelativeCoordinate()
+        {
+            double relativeCoordinate = random.Next(1, 9);
+            switch (relativeCoordinate)
+            {
+                case 1:
+                    return 0.1;
+                case 2:
+                    return 0.2;
+                case 3:
+                    return 0.3;
+                case 4:
+                    return 0.4;
+                case 5:
+                    return 0.5;
+                case 6:
+                    return 0.6;
+                case 7:
+                    return 0.7;
+                default:
+                    return 0.8;
+            }
         }
     }
 }

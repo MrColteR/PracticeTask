@@ -8,14 +8,16 @@ using System.Windows.Data;
 
 namespace PracticeTask
 {
-    internal class ConverterSize : IValueConverter
+    internal class ConverterSize : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return (double)value/15;
+            double relativeCoordinate = (double)values[0];
+            double absoluteСoordinate = (double)values[1];
+            return relativeCoordinate * absoluteСoordinate;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

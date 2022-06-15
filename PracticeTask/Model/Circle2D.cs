@@ -33,7 +33,7 @@ namespace PracticeTask.Model
         private int height;
         public int Height
         {
-            get => height = 50;
+            get => height;
             set
             {
                 height = value;
@@ -43,7 +43,7 @@ namespace PracticeTask.Model
         private int width;
         public int Width
         {
-            get => width = 50;
+            get => width;
             set
             {
                 width = value;
@@ -60,14 +60,13 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(IsActive));
             }
         }
-        private double heightWindow;
-        public double HeightWindow
+        private static double sizeCircle;
+        public static double SizeCircle
         {
-            get => heightWindow;
+            get => sizeCircle;
             set
             {
-                heightWindow = value;
-                OnPropertyChanged(nameof(HeightWindow));
+                sizeCircle = value;
             }
         }
         private bool isActiveColor;
@@ -80,11 +79,11 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(IsActiveColor));
             }
         }
-        public Circle2D(int x, int y, double heightWindow, bool isActive, bool isActiveColor) : base(isActive, isActiveColor)
+        public Circle2D(double x, double y, double sizeCircle, bool isActive, bool isActiveColor) : base(isActive, isActiveColor)
         {
             X = x;
             Y = y;
-            HeightWindow = heightWindow;
+            SizeCircle = sizeCircle;
             IsActive = isActive;
             IsActiveColor = isActiveColor;
         }

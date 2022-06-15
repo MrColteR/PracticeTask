@@ -1,4 +1,5 @@
-﻿using PracticeTask.ViewModel;
+﻿using PracticeTask.Model;
+using PracticeTask.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace PracticeTask.View
     /// </summary>
     public partial class TestWindow : Window
     {
-        private TestWindowViewModel viewModel;
+        private readonly TestWindowViewModel viewModel;
         public TestWindow(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
@@ -37,8 +38,13 @@ namespace PracticeTask.View
         {
             viewModel.HeightItemsControl = ItemsControl.ActualHeight;
             viewModel.WidthItemsControl = ItemsControl.ActualWidth;
-            viewModel.SizeCircle = ItemsControl.ActualHeight / 15;
             viewModel.CreateElipse(viewModel.Setting.CountCircle);
+        }
+
+        private void Ellipse_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var elp = (sender as Ellipse).DataContext as Circle2D;
+            elp.IsActiveColor = !elp.IsActiveColor;
         }
     }
 }

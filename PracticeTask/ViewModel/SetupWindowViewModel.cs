@@ -19,7 +19,9 @@ namespace PracticeTask.ViewModel
         public event Action Closing;
 
         private int countActiveCircle;
-        public int CountActiveCircle { get { return countActiveCircle; }
+        public int CountActiveCircle 
+        { 
+            get { return countActiveCircle; }
             set 
             {
                 if (CountActiveCircle != value)
@@ -30,7 +32,9 @@ namespace PracticeTask.ViewModel
             }
         }
         private int countCircle;
-        public int CountCircle { get { return countCircle; }
+        public int CountCircle 
+        {
+            get { return countCircle; }
             set 
             {
                 if (CountCircle != value)
@@ -40,8 +44,10 @@ namespace PracticeTask.ViewModel
                 }
             }
         }
-        private int speed;
-        public int Speed { get { return speed; } 
+        private double speed;
+        public double Speed 
+        {
+            get { return speed; } 
             set 
             {
                 if (Speed != value)
