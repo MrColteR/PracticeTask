@@ -21,7 +21,7 @@ namespace PracticeTask.ViewModel
         private int countActiveCircle;
         public int CountActiveCircle 
         { 
-            get { return countActiveCircle; }
+            get => countActiveCircle; 
             set 
             {
                 if (CountActiveCircle != value)
@@ -34,7 +34,7 @@ namespace PracticeTask.ViewModel
         private int countCircle;
         public int CountCircle 
         {
-            get { return countCircle; }
+            get => countCircle; 
             set 
             {
                 if (CountCircle != value)
@@ -47,7 +47,7 @@ namespace PracticeTask.ViewModel
         private double speed;
         public double Speed 
         {
-            get { return speed; } 
+            get => speed;
             set 
             {
                 if (Speed != value)

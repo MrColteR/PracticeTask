@@ -27,7 +27,9 @@
         </Grid.RowDefinitions>
         <ItemsControl Name="ItemsControl"
                       Grid.ColumnSpan="2"
-                      ItemsSource="{Binding Circles}">
+                      Grid.Row="0"
+                      ItemsSource="{Binding Circles}"
+                      Visibility="{Binding ItemsControlVisibility}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Canvas x:Name="Canvas">
@@ -57,9 +59,6 @@
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Fill" Value="Yellow"/>
                                         </Trigger>
-                                        <Trigger Property="IsFocused" Value="True">
-                                            <Setter Property="Fill" Value="Green"/>
-                                        </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Ellipse.Resources>
@@ -68,11 +67,25 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button x:Name="Button"
-                Grid.Column="0"
+        <TextBlock Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   Text="{Binding TextBlockText}"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   FontSize="40"
+                   Visibility="{Binding TextBlockVisible}">
+            
+        </TextBlock>
+        <Button Grid.Column="0"
                 Grid.Row="1"
                 Content="Начать"
+                Visibility="{Binding ButtonStartVisibility}"  
                 Command="{Binding Start}"/>
+        <Button Grid.Column="0"
+                Grid.Row="1"
+                Content="Проверить"
+                Visibility="{Binding ButtonCheckVisibility}"
+                Command="{Binding Check}"/>
         <Button Grid.Column="1"
                 Grid.Row="2"
                 Content="Закрыть"
