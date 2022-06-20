@@ -30,6 +30,7 @@ namespace PracticeTask.ViewModel
         private int isStop;
         private int levelOfDifficultyUp;
         private int levelOfDifficultyDown;
+        int count = 0;
 
         public event Action Closing;
 
@@ -177,17 +178,16 @@ namespace PracticeTask.ViewModel
                 {
                     if (j != i)
                     {
-                        //if (Math.Abs(Circles[j].X * WidthItemsControl - Circles[i].X * WidthItemsControl) +
-                        //    Math.Abs(Circles[j].Y * HeightItemsControl - Circles[i].Y * HeightItemsControl) < Math.Abs(SizeCircle))
+                        //var d = Math.Sqrt(Math.Pow(Circles[i].X * WidthItemsControl - Circles[j].X * WidthItemsControl, 2)
+                        //    + Math.Pow(Circles[i].Y * HeightItemsControl - Circles[j].Y * HeightItemsControl, 2));
+                        //if (d < SizeCircle)
                         //{
                         //    vectorY[i] = -vectorY[i];
                         //    vectorY[j] = -vectorY[j];
-                        //    Circles[i].Y += vectorY[i];
-                        //    Circles[j].Y += vectorY[j];
-                        //    Circles[i].X += vectorX[i];
-                        //    Circles[j].X += vectorX[j];
+                            
                         //}
-                        if (Math.Abs(Circles[i].X - Circles[j].X) + Math.Abs(Circles[i].Y - Circles[j].Y) < Math.Abs(SizeCircle/1000))
+                        var d = Math.Sqrt(Math.Pow(Circles[i].X - Circles[j].X, 2) + Math.Pow(Circles[i].Y - Circles[j].Y, 2));
+                        if (d < SizeCircle/1000)
                         {
                             vectorY[i] = -vectorY[i];
                             vectorY[j] = -vectorY[j];
@@ -208,6 +208,7 @@ namespace PracticeTask.ViewModel
                 ButtonCheckVisibility = "Visible";
                 ItemsControlVisibility = "Visible";
                 timer.Stop();
+                var b = count;
             }
 
         }
