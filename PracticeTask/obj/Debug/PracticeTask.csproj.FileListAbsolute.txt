@@ -24,7 +24,6 @@ C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTa
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\Prism.pdb
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\bin\Debug\Prism.xml
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\GeneratedInternalTypeHelper.g.cs
-C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.SuggestedBindingRedirects.cache
 C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\bin\Debug\PracticeTask.exe.config
 C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\bin\Debug\PracticeTask.exe
 C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\bin\Debug\PracticeTask.pdb
@@ -52,3 +51,4 @@ C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\obj\Debug\PracticeTa
 C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.CopyComplete
 C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\obj\Debug\PracticeTask.exe
 C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\obj\Debug\PracticeTask.pdb
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.SuggestedBindingRedirects.cache

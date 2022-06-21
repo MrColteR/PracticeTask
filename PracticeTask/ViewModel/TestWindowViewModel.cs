@@ -24,6 +24,8 @@ namespace PracticeTask.ViewModel
         private DispatcherTimer timerRestart;
         private List<double> vectorX;
         private List<double> vectorY;
+        private List<double> coordinateVectorX;
+        private List<double> coordinateVectorY;
         private bool isStarted;
         private bool isChecked;
         private bool isRight;
@@ -175,64 +177,76 @@ namespace PracticeTask.ViewModel
 
                 for (int j = 0; j < Circles.Count; j++)
                 {
-                    if (j != i)
+                    if (j != i) // j = 1, i = 2
                     {
-                        double distanse = Math.Sqrt(Math.Pow(Circles[j].X * WidthItemsControl - Circles[i].X * WidthItemsControl, 2)
-                                        + Math.Pow(Circles[j].Y * HeightItemsControl - Circles[i].Y * HeightItemsControl, 2));
-                        if (distanse < SizeCircle)
+                        double Dx = Circles[j].X - Circles[i].X;
+                        double Dy = Circles[j].Y - Circles[i].Y;
+                        double d = Math.Sqrt((Dx * Dx) + (Dy * Dy));
+                        if (d == 0)
                         {
-                            //double kIncline = (Circles[j].Y - Circles[i].Y)/(Circles[j].X - Circles[i].X);
-                            //double bIncline = Circles[j].Y - (Circles[i].Y - Circles[i].Y) * Circles[j].X / (Circles[i].X - Circles[j].X);
-
-                            //double angleIncline = Math.Atan(-1 * kIncline);
-
-                            //double unitVectorX = Math.Cos(angleIncline);
-                            //double unitVectorY = Math.Sin(angleIncline);
-
-                            //double cosAlpha = (unitVectorX * vectorX[i] + unitVectorY * vectorY[i]) 
-                            //                / Math.Sqrt(vectorX[i] * vectorX[i] + vectorY[i] * vectorY[i]);
-                            //double alpha = Math.Acos(cosAlpha);
-
-                            //double vX = Circles[j].X - (Circles[j].X + Circles[i].X) / 2;
-                            //double vY = Circles[j].Y - (Circles[j].Y + Circles[i].Y) / 2;
-
-                            //double d = unitVectorX * vY - unitVectorY * vX > 0 ? 1 : -1;
-
-                            //double vectorLenght = Math.Sqrt(Math.Pow(vectorX[i], 2) + Math.Pow(vectorY[i], 2));
-                            //vectorX[i] = d * -vectorLenght * unitVectorY / (unitVectorX * Math.Sqrt(Math.Pow(unitVectorY, 2) / Math.Pow(unitVectorX, 2) + 1));
-                            //vectorY[i] = d * vectorLenght / Math.Sqrt((Math.Pow(unitVectorY, 2) / Math.Pow(unitVectorX, 2)) + 1);
-
-
-
-                            double kIncline1 = (Circles[i].Y - Circles[j].Y) / (Circles[i].X - Circles[j].X);
-                            double bIncline1 = Circles[i].Y - (Circles[j].Y - Circles[j].Y) * Circles[i].X / (Circles[j].X - Circles[i].X);
-
-                            double angleIncline1 = Math.Atan(-1 * kIncline1);
-
-                            double unitVectorX1 = Math.Cos(angleIncline1);
-                            double unitVectorY1 = Math.Sin(angleIncline1);
-
-                            double cosAlpha1 = (unitVectorX1 * vectorX[j] + unitVectorY1 * vectorY[j])
-                                            / Math.Sqrt(vectorX[j] * vectorX[j] + vectorY[j] * vectorY[j]);
-                            double alpha1 = Math.Acos(cosAlpha1);
-
-                            double vX1 = Circles[i].X - (Circles[i].X + Circles[j].X) / 2;
-                            double vY1 = Circles[i].Y - (Circles[i].Y + Circles[j].Y) / 2;
-
-                            double d1 = unitVectorX1 * vY1 - unitVectorY1 * vX1 > 0 ? 1 : -1;
-
-                            double vectorLenght1 = Math.Sqrt(Math.Pow(vectorX[j], 2) + Math.Pow(vectorY[j], 2));
-                            vectorX[j] = d1 * -vectorLenght1 * unitVectorY1 / (unitVectorX1 * Math.Sqrt(Math.Pow(unitVectorY1, 2) / Math.Pow(unitVectorX1, 2) + 1));
-                            vectorY[j] = d1 * vectorLenght1 / Math.Sqrt((Math.Pow(unitVectorY1, 2) / Math.Pow(unitVectorX1, 2)) + 1);
+                            d = 0.001;
                         }
+                        double sin = Dx / d; 
+                        double cos = Dy / d;
 
+                        if (d < SizeCircle / 1000d)
+                        {
+                            double Vn1 = (vectorX[i] * sin) + (vectorY[i] * cos);
+                            double Vn2 = (vectorX[j] * sin) + (vectorY[j] * cos);
+                            double dt = (SizeCircle / 1000d - d) / (Vn1 - Vn2);
+
+                            if (dt > 0)
+                            {
+                                dt = 1;
+                            }
+
+                            if (dt < -0)
+                            {
+                                dt = -1;
+                            }
+
+                            Circles[j].X -= vectorX[j] * dt;
+                            Circles[j].Y -= vectorY[j] * dt;
+                            Circles[i].X -= vectorX[i] * dt;
+                            Circles[i].Y -= vectorY[i] * dt;
+
+                            Dx = Circles[j].X - Circles[i].X;
+                            Dy = Circles[j].Y - Circles[i].Y;
+                            d = Math.Sqrt(Dx * Dx + Dy * Dy);
+
+                            if (d == 0)
+                            {
+                                d = 0.001;
+                            }
+
+                            sin = Dx / d;
+                            cos = Dy / d;
+                            Vn1 = (vectorX[i] * sin) + (vectorY[i] * cos);
+                            Vn2 = (vectorX[j] * sin) + (vectorY[j] * cos);
+                            double Vt1 = (-vectorX[i] * cos) + (vectorY[i] * sin);
+                            double Vt2 = (-vectorX[j] * cos) + (vectorY[j] * sin);
+
+                            double o = Vn2;
+                            Vn2 = Vn1;
+                            Vn1 = o;
+
+                            vectorX[j] = (Vn2 * sin) - (Vt2 * cos);
+                            vectorY[j] = (Vn2 * cos) + (Vt2 * sin);
+                            vectorX[i] = (Vn1 * sin) - (Vt1 * cos);
+                            vectorY[i] = (Vn1 * cos) + (Vt1 * sin);
+
+                            Circles[j].X += vectorX[j] * dt;
+                            Circles[j].Y += vectorY[j] * dt;
+                            Circles[i].X += vectorX[i] * dt;
+                            Circles[i].Y += vectorY[i] * dt;
+                        }
                     }
                 }
                 Circles[i].X += vectorX[i];
                 Circles[i].Y += vectorY[i];
                 isStop++;
             }
-            if (isStop >= 2000)
+            if (isStop >= 4000)
             {
                 isStarted = false;
                 isStop = 0;
@@ -296,7 +310,7 @@ namespace PracticeTask.ViewModel
             }
             if (isRight)
             {
-                Circles.Add(new Circle2D(GetRelativeCoordinate(), GetRelativeCoordinate(), SizeCircle, false, false));
+                Circles.Add(new Circle2D(GetRelativeCoordinateX(), GetRelativeCoordinateY(), SizeCircle, false, false));
                 isRight = false;
             }
             ButtonStartVisibility = "Visible";
@@ -312,6 +326,9 @@ namespace PracticeTask.ViewModel
             jsonFileService = new JsonFileService();
             vectorX = new List<double>();
             vectorY = new List<double>();
+            coordinateVectorX = new List<double>();
+            coordinateVectorY = new List<double>();
+            AddCoordinateForVector();
 
             this.viewModel = viewModel;
             Circles = jsonFileService.Open2D(fileCircles);
@@ -326,6 +343,15 @@ namespace PracticeTask.ViewModel
             levelOfDifficultyDown = 0;
         }
 
+        private void AddCoordinateForVector()
+        {
+            for (int i = 10; i < 80; i++)
+            {
+                coordinateVectorX.Add(Math.Round(i * 0.01d, 1));
+                coordinateVectorY.Add(Math.Round(i * 0.01d, 1));
+            }
+        }
+
         public void CreateElipse(int count)
         {
             SizeCircle = Math.Round(HeightItemsControl * 0.07);
@@ -334,12 +360,12 @@ namespace PracticeTask.ViewModel
             {
                 if (Setting.CountActiveCircle > temp)
                 {
-                    Circles.Add(new Circle2D(GetRelativeCoordinate(), GetRelativeCoordinate(), SizeCircle, true, true));
+                    Circles.Add(new Circle2D(GetRelativeCoordinateX(), GetRelativeCoordinateY(), SizeCircle, true, true));
                     temp++;
                 }
                 else
                 {
-                    Circles.Add(new Circle2D(GetRelativeCoordinate(), GetRelativeCoordinate(), SizeCircle, false, false));
+                    Circles.Add(new Circle2D(GetRelativeCoordinateX(), GetRelativeCoordinateY(), SizeCircle, false, false));
                 }
             }
         }
@@ -356,28 +382,18 @@ namespace PracticeTask.ViewModel
             }
         }
 
-        private double GetRelativeCoordinate()
+        private double GetRelativeCoordinateX()
         {
-            double relativeCoordinate = random.Next(1, 9);
-            switch (relativeCoordinate)
-            {
-                case 1:
-                    return 0.1;
-                case 2:
-                    return 0.2;
-                case 3:
-                    return 0.3;
-                case 4:
-                    return 0.4;
-                case 5:
-                    return 0.5;
-                case 6:
-                    return 0.6;
-                case 7:
-                    return 0.7;
-                default:
-                    return 0.8;
-            }
+            var a = coordinateVectorX.Count;
+            double coordinate = coordinateVectorX[random.Next(coordinateVectorX.Count - 1)];
+            coordinateVectorX.Remove(coordinate);
+            return coordinate;
+        }
+        private double GetRelativeCoordinateY()
+        {
+            double coordinate = coordinateVectorY[random.Next(coordinateVectorY.Count - 1)];
+            coordinateVectorY.Remove(coordinate);
+            return coordinate;
         }
 
         private void IncreasingLevelOfDifficulty()
