@@ -2,19 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PracticeTask.Model
 {
-    public class Circle2D : Circle
+    internal class Circle3D : Circle
     {
         private double x;
-        public override double X 
-        { 
+        public override double X
+        {
             get => x;
-            set 
+            set
             {
                 x = value;
                 OnPropertyChanged(nameof(X));
@@ -28,6 +27,16 @@ namespace PracticeTask.Model
             {
                 y = value;
                 OnPropertyChanged(nameof(Y));
+            }
+        }
+        private double z;
+        public double Z
+        {
+            get => z;
+            set
+            {
+                z = value;
+                OnPropertyChanged(nameof(Z));
             }
         }
         private int height;
@@ -79,11 +88,12 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(IsActiveColor));
             }
         }
-        public Circle2D(double x, double y, double sizeCircle, bool isActive, bool isActiveColor) 
+        public Circle3D(double x, double y, double z, double sizeCircle, bool isActive, bool isActiveColor) 
                        : base(x, y, sizeCircle, isActive, isActiveColor)
         {
             X = x;
             Y = y;
+            Z = z;
             SizeCircle = sizeCircle;
             IsActive = isActive;
             IsActiveColor = isActiveColor;

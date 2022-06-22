@@ -1,4 +1,5 @@
 ﻿using PracticeTask.Model;
+using PracticeTask.Model.Base;
 using PracticeTask.ViewModel.Base;
 using Prism.Commands;
 using System;
@@ -334,6 +335,13 @@ namespace PracticeTask.ViewModel
             AddCoordinateForVector();
 
             this.viewModel = viewModel;
+
+            //Circle circle2d = new Circle2D(0, 0, 0, false, false);
+            //Circle circle3d = new Circle3D(0, 0, 0, 0, false, false);
+            //ObservableCollection<Circle> circles = new ObservableCollection<Circle>();
+            //circles.Add(circle2d);
+            //circles.Add(circle3d);
+
             Circles = jsonFileService.Open2D(fileCircles);
             Setting = viewModel.Setting;
             isStarted = false;
@@ -354,7 +362,6 @@ namespace PracticeTask.ViewModel
                 coordinateVectorY.Add(Math.Round(i * 0.01d, 2));
             }
         }
-
         public void CreateElipse(int count)
         {
             SizeCircle = Math.Round(HeightItemsControl * 0.07);
@@ -418,7 +425,6 @@ namespace PracticeTask.ViewModel
             
             return result;
         }
-
         private double GetRelativeCoordinateX()
         {
             var a = coordinateVectorX.Count;
@@ -432,7 +438,6 @@ namespace PracticeTask.ViewModel
             coordinateVectorY.Remove(coordinate);
             return coordinate;
         }
-
         private void IncreasingLevelOfDifficulty()
         {
             levelOfDifficultyDown = 0;
@@ -447,7 +452,6 @@ namespace PracticeTask.ViewModel
                 levelOfDifficultyUp = 0;
             }
         }
-
         private void ReducingLevelOfDifficulty()
         {
             levelOfDifficultyUp = 0;

@@ -64,6 +64,7 @@
     </ApplicationDefinition>
     <Compile Include="ConverterSize.cs" />
     <Compile Include="JsonFileService.cs" />
+    <Compile Include="Model\Circle3D.cs" />
     <Compile Include="Model\Setting.cs" />
     <Compile Include="Service\IWindowOpenService.cs" />
     <Compile Include="Service\SettingWindowService.cs" />
