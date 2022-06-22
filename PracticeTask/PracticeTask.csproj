@@ -65,6 +65,9 @@
     <Compile Include="ConverterSize.cs" />
     <Compile Include="JsonFileService.cs" />
     <Compile Include="Model\Setting.cs" />
+    <Compile Include="Service\IWindowOpenService.cs" />
+    <Compile Include="Service\SettingWindowService.cs" />
+    <Compile Include="Service\TestWindowService.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
     <Compile Include="ViewModel\SetupWindowViewModel.cs" />
     <Compile Include="ViewModel\TestWindowViewModel.cs" />

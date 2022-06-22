@@ -29,16 +29,16 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(countActiveCircle));
             }
         }
-        private double speed;
+        private int speed;
         [DataMember]
-        public double Speed { get { return speed; } 
+        public int Speed { get { return speed; } 
             set 
             {
                 speed = value;
                 OnPropertyChanged(nameof(speed));
             }
         }
-        public Setting(int countCircle, int countActiveCircle, double speed)
+        public Setting(int countCircle, int countActiveCircle, int speed)
         {
             CountCircle = countCircle;
             CountActiveCircle = countActiveCircle;

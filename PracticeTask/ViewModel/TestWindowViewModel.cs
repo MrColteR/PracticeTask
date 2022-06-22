@@ -138,8 +138,9 @@ namespace PracticeTask.ViewModel
         {
             for (int i = 0; i < Circles.Count; i++)
             {
-                vectorX.Add(GetRandomVector(Circles[i].X));
-                vectorY.Add(GetRandomVector(Circles[i].Y));
+                var coordinate = GetRandomVector();
+                vectorX.Add(coordinate[0]);
+                vectorY.Add(coordinate[1]);
                 Circles[i].IsActiveColor = false;
             }
             timer = new DispatcherTimer();
@@ -177,68 +178,70 @@ namespace PracticeTask.ViewModel
 
                 for (int j = 0; j < Circles.Count; j++)
                 {
-                    if (j != i) // j = 1, i = 2
+                    if (j != i)
                     {
-                        double Dx = Circles[j].X - Circles[i].X;
-                        double Dy = Circles[j].Y - Circles[i].Y;
-                        double d = Math.Sqrt((Dx * Dx) + (Dy * Dy));
-                        if (d == 0)
-                        {
-                            d = 0.001;
-                        }
-                        double sin = Dx / d; 
+                        // Расстояние между шариками
+                        double Dx = Circles[j].X * WidthItemsControl - Circles[i].X * WidthItemsControl;
+                        double Dy = Circles[j].Y * HeightItemsControl - Circles[i].Y * HeightItemsControl;
+                        double d = Math.Sqrt(Dx * Dx + Dy * Dy);
+                        double sin = Dx / d;
                         double cos = Dy / d;
 
-                        if (d < SizeCircle / 1000d)
+                        if (d <= SizeCircle)
                         {
-                            double Vn1 = (vectorX[i] * sin) + (vectorY[i] * cos);
-                            double Vn2 = (vectorX[j] * sin) + (vectorY[j] * cos);
-                            double dt = (SizeCircle / 1000d - d) / (Vn1 - Vn2);
+                            // Коэфицент K касательной между шариками
+                            double kIncline = (Circles[i].Y - Circles[j].Y) / (Circles[i].X - Circles[j].X);
 
-                            if (dt > 0)
+                            // Углы между перпендикулятором к центрам шариков
+                            double angleIncline_j = Math.Atan(-1 * kIncline);
+                            double angleIncline_i = Math.Atan(-1 * kIncline);
+
+                            // Единичный векторы скорости перпендикуляров
+                            double unitVectorX_j = Math.Cos(angleIncline_j);
+                            double unitVectorY_j = Math.Sin(angleIncline_j);
+                            double unitVectorX_i = Math.Cos(angleIncline_i);
+                            double unitVectorY_i = Math.Sin(angleIncline_i);
+
+                            // Проверка на вхождение шариков друг в друга
+                            double vectorLenght_j = vectorX[j] * WidthItemsControl * sin + vectorY[j] * HeightItemsControl * cos;
+                            double vectorLenght_i = vectorX[i] * WidthItemsControl * sin + vectorY[i] * HeightItemsControl * cos;
+                            double dt = (SizeCircle - d) / (vectorLenght_j / vectorLenght_i);
+                            if (dt > 1)
                             {
                                 dt = 1;
                             }
-
-                            if (dt < -0)
+                            if (dt < -1)
                             {
-                                dt = -1;
+                                dt = 1;
                             }
-
-                            Circles[j].X -= vectorX[j] * dt;
-                            Circles[j].Y -= vectorY[j] * dt;
                             Circles[i].X -= vectorX[i] * dt;
-                            Circles[i].Y -= vectorY[i] * dt;
+                            Circles[j].X -= vectorX[j] * dt;
+                            Circles[i].X -= vectorX[i] * dt;
+                            Circles[j].X -= vectorX[j] * dt;
 
-                            Dx = Circles[j].X - Circles[i].X;
-                            Dy = Circles[j].Y - Circles[i].Y;
-                            d = Math.Sqrt(Dx * Dx + Dy * Dy);
+                            // Новые координаты векторов (Отражаем по Y)
+                            double vX_j = Circles[j].X - (Circles[j].X + Circles[i].X) / 2;
+                            double vY_j = -1 * (Circles[j].Y - (Circles[j].Y + Circles[i].Y) / 2);
 
-                            if (d == 0)
+                            // Новое расстояние между центрами
+                            double dNew;
+                            if (unitVectorX_j * vY_j - vX_j * unitVectorY_j > 0)
                             {
-                                d = 0.001;
+                                dNew = 1;
+                            }
+                            else
+                            {
+                                dNew = -1;
                             }
 
-                            sin = Dx / d;
-                            cos = Dy / d;
-                            Vn1 = (vectorX[i] * sin) + (vectorY[i] * cos);
-                            Vn2 = (vectorX[j] * sin) + (vectorY[j] * cos);
-                            double Vt1 = (-vectorX[i] * cos) + (vectorY[i] * sin);
-                            double Vt2 = (-vectorX[j] * cos) + (vectorY[j] * sin);
+                            double vLj = Math.Sqrt(vectorX[j] * vectorX[j] + vectorY[j] * vectorY[j]);
+                            double vLi = Math.Sqrt(vectorX[i] * vectorX[i] + vectorY[i] * vectorY[i]);
 
-                            double o = Vn2;
-                            Vn2 = Vn1;
-                            Vn1 = o;
-
-                            vectorX[j] = (Vn2 * sin) - (Vt2 * cos);
-                            vectorY[j] = (Vn2 * cos) + (Vt2 * sin);
-                            vectorX[i] = (Vn1 * sin) - (Vt1 * cos);
-                            vectorY[i] = (Vn1 * cos) + (Vt1 * sin);
-
-                            Circles[j].X += vectorX[j] * dt;
-                            Circles[j].Y += vectorY[j] * dt;
-                            Circles[i].X += vectorX[i] * dt;
-                            Circles[i].Y += vectorY[i] * dt;
+                            // Новые координаты столкнувшихся шариков
+                            vectorX[j] = dNew * -vLj * unitVectorY_j / (unitVectorX_j * Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1));
+                            vectorY[j] = dNew * vLj / Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1);
+                            vectorX[i] = -dNew * -vLi * unitVectorY_i / (unitVectorX_i * Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1)); ;
+                            vectorY[i] = -dNew * vLi / Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1);
                         }
                     }
                 }
@@ -345,10 +348,10 @@ namespace PracticeTask.ViewModel
 
         private void AddCoordinateForVector()
         {
-            for (int i = 10; i < 80; i++)
+            for (int i = 10; i < 80; i += 5)
             {
-                coordinateVectorX.Add(Math.Round(i * 0.01d, 1));
-                coordinateVectorY.Add(Math.Round(i * 0.01d, 1));
+                coordinateVectorX.Add(Math.Round(i * 0.01d, 2));
+                coordinateVectorY.Add(Math.Round(i * 0.01d, 2));
             }
         }
 
@@ -369,17 +372,51 @@ namespace PracticeTask.ViewModel
                 }
             }
         }
-        private double GetRandomVector(double coordinate)
+        private double[] GetRandomVector()
         {
-            int direction = random.Next(1, 3);
-            double vectorX = random.Next(Convert.ToInt32(coordinate * 1000) + 1) / 1000d;
-            switch (direction)
+            int randomX = random.Next(1, 3);
+            int randomY = random.Next(1, 3);
+            int randomPart = random.Next(2, 5);
+            double speed = Setting.Speed * 0.001;
+            double vectorX = 0;
+            
+            // Разделение вектора на части чтобы получить скорость = модулю вектора
+            switch (randomPart)
+            {
+                case 2:
+                    vectorX = speed - speed / 2d;
+                    break;
+                case 3:
+                    vectorX = speed - speed / 3d;
+                    break;
+                case 4:
+                    vectorX = speed - speed / 4d;
+                    break;
+            }
+
+            double vectorY = Math.Abs(speed - vectorX);
+            double[] result = new double[2];
+
+            switch (randomX)
             {
                 case 1:
-                    return vectorX * Setting.Speed;
-                default:
-                    return vectorX * - Setting.Speed;
+                    result[0] = vectorX * 1;
+                    break;
+                case 2:
+                    result[0] = vectorX * -1;
+                    break;
             }
+            switch (randomY)
+            {
+                case 1:
+                    result[1] = vectorY * 1;
+                    break;
+                case 2:
+                    result[1] = vectorY * -1;
+                    break;
+            }
+            
+            return result;
         }
 
         private double GetRelativeCoordinateX()
@@ -401,7 +438,7 @@ namespace PracticeTask.ViewModel
             levelOfDifficultyDown = 0;
             if (levelOfDifficultyUp <= 2)
             {
-                Setting.Speed += 0.001;
+                Setting.Speed += 1;
             }
             else
             {
@@ -416,9 +453,9 @@ namespace PracticeTask.ViewModel
             levelOfDifficultyUp = 0;
             if (levelOfDifficultyDown <= 2)
             {
-                if (Setting.Speed > 0.001)
+                if (Setting.Speed > 1)
                 {
-                    Setting.Speed -= 0.001;
+                    Setting.Speed -= 1;
                 }
             }
             else

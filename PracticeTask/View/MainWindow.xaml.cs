@@ -1,4 +1,5 @@
 ﻿using PracticeTask.Model;
+using PracticeTask.Service;
 using PracticeTask.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace PracticeTask
         {
             InitializeComponent();
             jsonFileService = new JsonFileService();
-            DataContext = viewModel = new MainWindowViewModel();
+            DataContext = viewModel = new MainWindowViewModel(new SettingWindowService(), new TestWindowService());
             Closed += MainWindow_Closed;
         }
 

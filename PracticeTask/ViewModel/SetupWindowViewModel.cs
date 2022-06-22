@@ -44,8 +44,8 @@ namespace PracticeTask.ViewModel
                 }
             }
         }
-        private double speed;
-        public double Speed 
+        private int speed;
+        public int Speed 
         {
             get => speed;
             set 

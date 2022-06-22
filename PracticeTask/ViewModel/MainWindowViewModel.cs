@@ -1,4 +1,5 @@
 ﻿using PracticeTask.Model;
+using PracticeTask.Service;
 using PracticeTask.View;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace PracticeTask.ViewModel
         private static readonly string path = Directory.GetCurrentDirectory();
         private readonly string fileSetting = path.Substring(0, path.IndexOf("bin")) + "Setting.json";
         private readonly JsonFileService jsonFileService = new JsonFileService();
+        private IWindowOpenService settingService;
+        private IWindowOpenService testService;
 
         public Setting Setting { get; set; }
         public MainWindowViewModel ViewModel { get; set; }
@@ -21,18 +24,18 @@ namespace PracticeTask.ViewModel
         private RelayCommand openSetup;
         public RelayCommand OpenSetup => openSetup ?? (openSetup = new RelayCommand(obj =>
         {
-            SetupWindow window = new SetupWindow(ViewModel);
-            window.ShowDialog();
+            settingService.Show(ViewModel);
         }));
         private RelayCommand startTest; 
         public RelayCommand StartTest => startTest ?? (startTest = new RelayCommand(obj => 
         {
-            TestWindow window = new TestWindow(ViewModel);
-            window.Show();
+            testService.Show(ViewModel);
         }));
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IWindowOpenService settingService, IWindowOpenService testService)
         {
+            this.settingService = settingService;
+            this.testService = testService;
             ViewModel = this;
             jsonFileService = new JsonFileService();
             Setting = new Setting(jsonFileService.OpenSetting(fileSetting).CountCircle,
