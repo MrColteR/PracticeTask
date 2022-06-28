@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace PracticeTask.Service
 {
-    public class TestWindowService : IWindowOpenService
+    public class TestWindow2DService : IWindowOpenService
     {
         public void Show(MainWindowViewModel viewModel)
         {
-            TestWindow window = new TestWindow(viewModel);
+            TestWindow2D window = new TestWindow2D(viewModel);
             window.Show();
         }
     }

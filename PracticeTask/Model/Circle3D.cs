@@ -69,8 +69,8 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(IsActive));
             }
         }
-        private static double sizeCircle;
-        public static double SizeCircle
+        private double sizeCircle;
+        public override double SizeCircle
         {
             get => sizeCircle;
             set
@@ -88,13 +88,8 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(IsActiveColor));
             }
         }
-        public Circle3D(double x, double y, double z, double sizeCircle, bool isActive, bool isActiveColor) 
-                       : base(x, y, sizeCircle, isActive, isActiveColor)
+        public Circle3D(bool isActive, bool isActiveColor) : base( isActive, isActiveColor)
         {
-            X = x;
-            Y = y;
-            Z = z;
-            SizeCircle = sizeCircle;
             IsActive = isActive;
             IsActiveColor = isActiveColor;
         }

@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace PracticeTask
 {
-    internal class ConverterSize : IMultiValueConverter
+    public class ConverterSize : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

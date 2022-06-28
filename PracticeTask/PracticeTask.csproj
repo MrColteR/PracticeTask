@@ -62,21 +62,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converter3D.cs" />
     <Compile Include="ConverterSize.cs" />
+    <Compile Include="Factory\Circle2DInteraction.cs" />
+    <Compile Include="Factory\Circle3DInteraction.cs" />
+    <Compile Include="Factory\FactoryCirlce.cs" />
+    <Compile Include="Factory\ICircleInteraction.cs" />
     <Compile Include="JsonFileService.cs" />
     <Compile Include="Model\Circle3D.cs" />
     <Compile Include="Model\Setting.cs" />
     <Compile Include="Service\IWindowOpenService.cs" />
+    <Compile Include="Service\TestWindow3DService.cs" />
     <Compile Include="Service\SettingWindowService.cs" />
-    <Compile Include="Service\TestWindowService.cs" />
+    <Compile Include="Service\TestWindow2DService.cs" />
+    <Compile Include="SphereMeshGenerator.cs" />
     <Compile Include="ViewModel\Base\ViewModelBase.cs" />
     <Compile Include="ViewModel\SetupWindowViewModel.cs" />
     <Compile Include="ViewModel\TestWindowViewModel.cs" />
     <Compile Include="View\SetupWindow.xaml.cs">
       <DependentUpon>SetupWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TestWindow.xaml.cs">
-      <DependentUpon>TestWindow.xaml</DependentUpon>
+    <Compile Include="View\TestWindow2D.xaml.cs">
+      <DependentUpon>TestWindow2D.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestWindow3D.xaml.cs">
+      <DependentUpon>TestWindow3D.xaml</DependentUpon>
     </Compile>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -98,7 +108,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TestWindow.xaml">
+    <Page Include="View\TestWindow2D.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestWindow3D.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

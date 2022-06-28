@@ -15,8 +15,9 @@ namespace PracticeTask.ViewModel
         private static readonly string path = Directory.GetCurrentDirectory();
         private readonly string fileSetting = path.Substring(0, path.IndexOf("bin")) + "Setting.json";
         private readonly JsonFileService jsonFileService = new JsonFileService();
-        private IWindowOpenService settingService;
-        private IWindowOpenService testService;
+        private readonly IWindowOpenService settingService;
+        private readonly IWindowOpenService testService2D;
+        private readonly IWindowOpenService testService3D;
 
         public Setting Setting { get; set; }
         public MainWindowViewModel ViewModel { get; set; }
@@ -29,18 +30,28 @@ namespace PracticeTask.ViewModel
         private RelayCommand startTest; 
         public RelayCommand StartTest => startTest ?? (startTest = new RelayCommand(obj => 
         {
-            testService.Show(ViewModel);
+            if (Setting.WindowView == 0)
+            {
+                testService2D.Show(ViewModel);
+            }
+            else
+            {
+                testService3D.Show(ViewModel);
+            }
         }));
 
-        public MainWindowViewModel(IWindowOpenService settingService, IWindowOpenService testService)
+        public MainWindowViewModel(IWindowOpenService settingService, IWindowOpenService testService2D, IWindowOpenService testService3D)
         {
             this.settingService = settingService;
-            this.testService = testService;
+            this.testService2D = testService2D;
+            this.testService3D = testService3D;
             ViewModel = this;
             jsonFileService = new JsonFileService();
             Setting = new Setting(jsonFileService.OpenSetting(fileSetting).CountCircle,
                                   jsonFileService.OpenSetting(fileSetting).CountActiveCircle,
-                                  jsonFileService.OpenSetting(fileSetting).Speed);
+                                  jsonFileService.OpenSetting(fileSetting).Speed,
+                                  jsonFileService.OpenSetting(fileSetting).SizeCircle,
+                                  jsonFileService.OpenSetting(fileSetting).WindowView);
         }
     }
 }

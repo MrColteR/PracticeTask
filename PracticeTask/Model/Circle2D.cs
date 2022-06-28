@@ -30,6 +30,26 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(Y));
             }
         }
+        private double vectorX;
+        public override double VectorX
+        {
+            get => vectorX;
+            set
+            {
+                vectorX = value;
+                OnPropertyChanged(nameof(VectorX));
+            }
+        }
+        private double vectorY;
+        public override double VectorY
+        {
+            get => vectorY;
+            set
+            {
+                vectorY = value;
+                OnPropertyChanged(nameof(VectorY));
+            }
+        }
         private int height;
         public int Height
         {
@@ -60,8 +80,8 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(IsActive));
             }
         }
-        private static double sizeCircle;
-        public static double SizeCircle
+        private double sizeCircle;
+        public override double SizeCircle
         {
             get => sizeCircle;
             set
@@ -79,12 +99,8 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(IsActiveColor));
             }
         }
-        public Circle2D(double x, double y, double sizeCircle, bool isActive, bool isActiveColor) 
-                       : base(x, y, sizeCircle, isActive, isActiveColor)
+        public Circle2D(bool isActive, bool isActiveColor) : base(isActive, isActiveColor)
         {
-            X = x;
-            Y = y;
-            SizeCircle = sizeCircle;
             IsActive = isActive;
             IsActiveColor = isActiveColor;
         }

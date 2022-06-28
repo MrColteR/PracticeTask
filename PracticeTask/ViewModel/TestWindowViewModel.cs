@@ -1,4 +1,5 @@
-﻿using PracticeTask.Model;
+﻿using PracticeTask.Factory;
+using PracticeTask.Model;
 using PracticeTask.Model.Base;
 using PracticeTask.ViewModel.Base;
 using Prism.Commands;
@@ -10,46 +11,38 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using System.Windows.Threading;
 
 namespace PracticeTask.ViewModel
 {
     public class TestWindowViewModel : ViewModelBase
     {
-        private static readonly string path = Directory.GetCurrentDirectory();
-        private readonly string fileCircles = path.Substring(0, path.IndexOf("bin")) + "Circles.json";
-        private MainWindowViewModel viewModel;
-        private JsonFileService jsonFileService;
-        private Random random;
-        private DispatcherTimer timer;
-        private DispatcherTimer timerRestart;
-        private List<double> vectorX;
-        private List<double> vectorY;
-        private List<double> coordinateVectorX;
-        private List<double> coordinateVectorY;
-        private bool isStarted;
-        private bool isChecked;
-        private bool isRight;
-        private int isStop;
-        private int levelOfDifficultyUp;
-        private int levelOfDifficultyDown;
-
+        private readonly ICircleInteraction interaction;
         public event Action Closing;
+        private bool IsRight { get; set; }
+        private bool IsStarted { get; set; }
+        private bool IsChecked { get; set; }
+        private int IsStop;
+        private DispatcherTimer Timer { get; set; }
+        private DispatcherTimer TimerRestart { get; set; }
+        private int LevelOfDifficultyUp { get; set; }
+        private int LevelOfDifficultyDown { get; set; }
+        public Setting Setting { get; set; }
 
-        private ObservableCollection<Circle2D> circles;
-        public ObservableCollection<Circle2D> Circles
+        private ObservableCollection<Circle> circles;
+        public ObservableCollection<Circle> Circles
         {
             get => circles;
-            set => circles = value;
-        }
-        private Setting setting;
-        public Setting Setting
-        {
-            get => setting;
             set
             {
-                setting = value;
-                OnPropertyChanged(nameof(Setting));
+                if (Circles != value)
+                {
+                    circles = value;
+                    OnPropertyChanged(nameof(Circles));
+                }
             }
         }
         private string buttonStartVisibility;
@@ -122,15 +115,7 @@ namespace PracticeTask.ViewModel
                 OnPropertyChanged(nameof(WidthItemsControl));
             }
         }
-        private static double sizeCircle;
-        public static double SizeCircle
-        {
-            get => sizeCircle; 
-            set 
-            { 
-                sizeCircle = value;
-            }
-        }
+
         private DelegateCommand closeTest;
         public DelegateCommand CloseTest => closeTest ?? (closeTest = new DelegateCommand(Closing));
 
@@ -139,136 +124,41 @@ namespace PracticeTask.ViewModel
         {
             for (int i = 0; i < Circles.Count; i++)
             {
-                var coordinate = GetRandomVector();
-                vectorX.Add(coordinate[0]);
-                vectorY.Add(coordinate[1]);
                 Circles[i].IsActiveColor = false;
             }
-            timer = new DispatcherTimer();
-            timer.Tick += Timer_Tick;
-            timer.Interval = new TimeSpan(0,0,0,0,20);
-            timer.Start();
-            isStarted = true;
-            isChecked = false;
-        }, (obj) => isStarted == false));
 
-        private void Timer_Tick(object sender, EventArgs e)
+            Timer = new DispatcherTimer();
+            Timer.Tick += Timer_Tick;
+            Timer.Interval = new TimeSpan(0, 0, 0, 0, 20);
+            Timer.Start();
+            IsStarted = true;
+            IsChecked = false;
+        }, (obj) => IsStarted == false));
+
+        public void Timer_Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i < Circles.Count; i++)
+            interaction.Timer_Tick(Circles, ref IsStop, HeightItemsControl, WidthItemsControl);
+            if (IsStop >= 4000)
             {
-                if (Circles[i].X <= 0)
+                IsStarted = false;
+                for (int i = 0; i < Circles.Count; i++)
                 {
-                    vectorX[i] = -vectorX[i];
-                    Circles[i].X = 0;
+                    Circles[i].VectorX = 0;
+                    Circles[i].VectorY = 0;
                 }
-                if (Circles[i].X >= 1 - (1 * SizeCircle / WidthItemsControl))
-                {
-                    vectorX[i] = -vectorX[i];
-                    Circles[i].X = 1 - (1 * SizeCircle / WidthItemsControl);
-                }
-                if (Circles[i].Y <= 0)
-                {
-                    vectorY[i] = -vectorY[i];
-                    Circles[i].Y = 0;
-                }
-                if (Circles[i].Y >= 1 - (1 * SizeCircle / HeightItemsControl))
-                {
-                    vectorY[i] = -vectorY[i];
-                    Circles[i].Y = 1 - (1 * SizeCircle / HeightItemsControl);
-                }
-
-                for (int j = 0; j < Circles.Count; j++)
-                {
-                    if (j != i)
-                    {
-                        // Расстояние между шариками
-                        double Dx = Circles[j].X * WidthItemsControl - Circles[i].X * WidthItemsControl;
-                        double Dy = Circles[j].Y * HeightItemsControl - Circles[i].Y * HeightItemsControl;
-                        double d = Math.Sqrt(Dx * Dx + Dy * Dy);
-                        double sin = Dx / d;
-                        double cos = Dy / d;
-
-                        if (d <= SizeCircle)
-                        {
-                            // Коэфицент K касательной между шариками
-                            double kIncline = (Circles[i].Y - Circles[j].Y) / (Circles[i].X - Circles[j].X);
-
-                            // Углы между перпендикулятором к центрам шариков
-                            double angleIncline_j = Math.Atan(-1 * kIncline);
-                            double angleIncline_i = Math.Atan(-1 * kIncline);
-
-                            // Единичный векторы скорости перпендикуляров
-                            double unitVectorX_j = Math.Cos(angleIncline_j);
-                            double unitVectorY_j = Math.Sin(angleIncline_j);
-                            double unitVectorX_i = Math.Cos(angleIncline_i);
-                            double unitVectorY_i = Math.Sin(angleIncline_i);
-
-                            // Проверка на вхождение шариков друг в друга
-                            double vectorLenght_j = vectorX[j] * WidthItemsControl * sin + vectorY[j] * HeightItemsControl * cos;
-                            double vectorLenght_i = vectorX[i] * WidthItemsControl * sin + vectorY[i] * HeightItemsControl * cos;
-                            double dt = (SizeCircle - d) / (vectorLenght_j / vectorLenght_i);
-                            if (dt > 1)
-                            {
-                                dt = 1;
-                            }
-                            if (dt < -1)
-                            {
-                                dt = 1;
-                            }
-                            Circles[i].X -= vectorX[i] * dt;
-                            Circles[j].X -= vectorX[j] * dt;
-                            Circles[i].X -= vectorX[i] * dt;
-                            Circles[j].X -= vectorX[j] * dt;
-
-                            // Новые координаты векторов (Отражаем по Y)
-                            double vX_j = Circles[j].X - (Circles[j].X + Circles[i].X) / 2;
-                            double vY_j = -1 * (Circles[j].Y - (Circles[j].Y + Circles[i].Y) / 2);
-
-                            // Новое расстояние между центрами
-                            double dNew;
-                            if (unitVectorX_j * vY_j - vX_j * unitVectorY_j > 0)
-                            {
-                                dNew = 1;
-                            }
-                            else
-                            {
-                                dNew = -1;
-                            }
-
-                            double vLj = Math.Sqrt(vectorX[j] * vectorX[j] + vectorY[j] * vectorY[j]);
-                            double vLi = Math.Sqrt(vectorX[i] * vectorX[i] + vectorY[i] * vectorY[i]);
-
-                            // Новые координаты столкнувшихся шариков
-                            vectorX[j] = dNew * -vLj * unitVectorY_j / (unitVectorX_j * Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1));
-                            vectorY[j] = dNew * vLj / Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1);
-                            vectorX[i] = -dNew * -vLi * unitVectorY_i / (unitVectorX_i * Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1)); ;
-                            vectorY[i] = -dNew * vLi / Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1);
-                        }
-                    }
-                }
-                Circles[i].X += vectorX[i];
-                Circles[i].Y += vectorY[i];
-                isStop++;
-            }
-            if (isStop >= 4000)
-            {
-                isStarted = false;
-                isStop = 0;
-                vectorX.Clear();
-                vectorY.Clear();
                 ButtonStartVisibility = "Collapsed";
                 ButtonCheckVisibility = "Visible";
                 ItemsControlVisibility = "Visible";
-                timer.Stop();
+                IsStop = 0;
+                Timer.Stop();
             }
-
         }
 
         private RelayCommand check;
         public RelayCommand Check => check ?? (check = new RelayCommand(obj =>
         {
             var temp = 0;
-            isChecked = true;
+            IsChecked = true;
             for (int i = 0; i < Circles.Count; i++)
             {
                 if (Circles[i].IsActiveColor == Circles[i].IsActive && Circles[i].IsActive == true)
@@ -281,25 +171,25 @@ namespace PracticeTask.ViewModel
                 ItemsControlVisibility = "Collapsed";
                 TextBlockVisible = "Visible";
                 TextBlockText = "Повезло";
-                levelOfDifficultyUp++;
+                LevelOfDifficultyUp++;
                 IncreasingLevelOfDifficulty();
-               
+
             }
             else
             {
                 ItemsControlVisibility = "Collapsed";
                 TextBlockVisible = "Visible";
                 TextBlockText = "Не повезло";
-                levelOfDifficultyDown++;
+                LevelOfDifficultyDown++;
                 ReducingLevelOfDifficulty();
             }
-            timerRestart = new DispatcherTimer();
-            timerRestart.Tick += Timer_Restart;
-            timerRestart.Interval = new TimeSpan(0, 0, 2);
-            timerRestart.Start();
-        }, (obj) => isChecked == false));
+            TimerRestart = new DispatcherTimer();
+            TimerRestart.Tick += Timer_Restart;
+            TimerRestart.Interval = new TimeSpan(0, 0, 2);
+            TimerRestart.Start();
+        }, (obj) => IsChecked == false));
 
-        private void Timer_Restart(object sender, EventArgs e)
+        public void Timer_Restart(object sender, EventArgs e)
         {
             for (int i = 0; i < Circles.Count; i++)
             {
@@ -311,151 +201,39 @@ namespace PracticeTask.ViewModel
                 {
                     Circles[i].IsActiveColor = false;
                 }
-            }
-            if (isRight)
-            {
-                Circles.Add(new Circle2D(GetRelativeCoordinateX(), GetRelativeCoordinateY(), SizeCircle, false, false));
-                isRight = false;
-            }
+            }            
             ButtonStartVisibility = "Visible";
             ItemsControlVisibility = "Visible";
             ButtonCheckVisibility = "Collapsed";
             TextBlockVisible = "Collapsed";
-            timerRestart.Stop();
+            IsRight = false;
+
+            interaction.Timer_Restart(Circles, IsRight);
+            TimerRestart.Stop();
         }
-
-        public TestWindowViewModel(MainWindowViewModel viewModel)
+        public void CreateElipse()
         {
-            random = new Random();
-            jsonFileService = new JsonFileService();
-            vectorX = new List<double>();
-            vectorY = new List<double>();
-            coordinateVectorX = new List<double>();
-            coordinateVectorY = new List<double>();
-            AddCoordinateForVector();
-
-            this.viewModel = viewModel;
-
-            //Circle circle2d = new Circle2D(0, 0, 0, false, false);
-            //Circle circle3d = new Circle3D(0, 0, 0, 0, false, false);
-            //ObservableCollection<Circle> circles = new ObservableCollection<Circle>();
-            //circles.Add(circle2d);
-            //circles.Add(circle3d);
-
-            Circles = jsonFileService.Open2D(fileCircles);
-            Setting = viewModel.Setting;
-            isStarted = false;
-            isChecked = false;
-            ButtonStartVisibility = "Visible";
-            ButtonCheckVisibility = "Collapsed";
-            TextBlockVisible = "Collapsed";
-            isStop = 0;
-            levelOfDifficultyUp = 0;
-            levelOfDifficultyDown = 0;
-        }
-
-        private void AddCoordinateForVector()
-        {
-            for (int i = 10; i < 80; i += 5)
-            {
-                coordinateVectorX.Add(Math.Round(i * 0.01d, 2));
-                coordinateVectorY.Add(Math.Round(i * 0.01d, 2));
-            }
-        }
-        public void CreateElipse(int count)
-        {
-            SizeCircle = Math.Round(HeightItemsControl * 0.07);
-            var temp = 0;
-            for (int i = 0; i < count; i++)
-            {
-                if (Setting.CountActiveCircle > temp)
-                {
-                    Circles.Add(new Circle2D(GetRelativeCoordinateX(), GetRelativeCoordinateY(), SizeCircle, true, true));
-                    temp++;
-                }
-                else
-                {
-                    Circles.Add(new Circle2D(GetRelativeCoordinateX(), GetRelativeCoordinateY(), SizeCircle, false, false));
-                }
-            }
-        }
-        private double[] GetRandomVector()
-        {
-            int randomX = random.Next(1, 3);
-            int randomY = random.Next(1, 3);
-            int randomPart = random.Next(2, 5);
-            double speed = Setting.Speed * 0.001;
-            double vectorX = 0;
-            
-            // Разделение вектора на части чтобы получить скорость = модулю вектора
-            switch (randomPart)
-            {
-                case 2:
-                    vectorX = speed - speed / 2d;
-                    break;
-                case 3:
-                    vectorX = speed - speed / 3d;
-                    break;
-                case 4:
-                    vectorX = speed - speed / 4d;
-                    break;
-            }
-
-            double vectorY = Math.Abs(speed - vectorX);
-            double[] result = new double[2];
-
-            switch (randomX)
-            {
-                case 1:
-                    result[0] = vectorX * 1;
-                    break;
-                case 2:
-                    result[0] = vectorX * -1;
-                    break;
-            }
-            switch (randomY)
-            {
-                case 1:
-                    result[1] = vectorY * 1;
-                    break;
-                case 2:
-                    result[1] = vectorY * -1;
-                    break;
-            }
-            
-            return result;
-        }
-        private double GetRelativeCoordinateX()
-        {
-            var a = coordinateVectorX.Count;
-            double coordinate = coordinateVectorX[random.Next(coordinateVectorX.Count - 1)];
-            coordinateVectorX.Remove(coordinate);
-            return coordinate;
-        }
-        private double GetRelativeCoordinateY()
-        {
-            double coordinate = coordinateVectorY[random.Next(coordinateVectorY.Count - 1)];
-            coordinateVectorY.Remove(coordinate);
-            return coordinate;
+            Setting.SizeCircle = 0.03;
+            Circles = interaction.CreateElipse();
         }
         private void IncreasingLevelOfDifficulty()
         {
-            levelOfDifficultyDown = 0;
-            if (levelOfDifficultyUp <= 2)
+            LevelOfDifficultyDown = 0;
+            if (LevelOfDifficultyUp <= 2)
             {
                 Setting.Speed += 1;
             }
             else
             {
                 Setting.CountCircle += 1;
-                isRight = true;
-                levelOfDifficultyUp = 0;
+                IsRight = true;
+                LevelOfDifficultyUp = 0;
             }
         }
         private void ReducingLevelOfDifficulty()
         {
-            levelOfDifficultyUp = 0;
-            if (levelOfDifficultyDown <= 2)
+            LevelOfDifficultyUp = 0;
+            if (LevelOfDifficultyDown <= 2)
             {
                 if (Setting.Speed > 1)
                 {
@@ -467,10 +245,33 @@ namespace PracticeTask.ViewModel
                 if (Setting.CountCircle > 1)
                 {
                     Circles.RemoveAt(Circles.Count - 1);
-                    levelOfDifficultyDown = 0;
+                    LevelOfDifficultyDown = 0;
                 }
-                levelOfDifficultyUp = 0;
+                LevelOfDifficultyUp = 0;
             }
+        }
+        public TestWindowViewModel(MainWindowViewModel viewModel)
+        {
+            Circles = new ObservableCollection<Circle>();
+            Setting = viewModel.Setting;
+            IsStarted = false;
+            IsChecked = false;
+            ButtonStartVisibility = "Visible";
+            ButtonCheckVisibility = "Collapsed";
+            TextBlockVisible = "Collapsed";
+            IsStop = 0;
+            LevelOfDifficultyUp = 0;
+            LevelOfDifficultyDown = 0;
+
+            if (Setting.WindowView == 0) // Выбор между 2D и 3D шариками
+            {
+                interaction = FactoryCirlce.Circle2D(Setting);
+            }
+            else
+            {
+                interaction = FactoryCirlce.Circle3D(Setting);
+            }
+            CreateElipse();
         }
     }
 }

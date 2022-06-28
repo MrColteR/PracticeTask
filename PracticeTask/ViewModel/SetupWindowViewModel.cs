@@ -14,9 +14,9 @@ namespace PracticeTask.ViewModel
 {
     public class SetupWindowViewModel : ViewModelBase
     {
-        private Setting Setting { get; set; }
-        private MainWindowViewModel mainWindowViewModel;
+        private readonly MainWindowViewModel mainWindowViewModel;
         public event Action Closing;
+        private Setting Setting { get; set; }
 
         private int countActiveCircle;
         public int CountActiveCircle 
@@ -57,12 +57,26 @@ namespace PracticeTask.ViewModel
                 }
             } 
         }
+        private int windowView;
+        public int WindowView
+        {
+            get => windowView;
+            set
+            {
+                if (WindowView != value)
+                {
+                    windowView = value;
+                    OnPropertyChanged(nameof(WindowView));
+                }
+            }
+        }
 
         void CloseAndSave()
         {
             Setting.Speed = Speed;
             Setting.CountCircle = CountCircle;
             Setting.CountActiveCircle = CountActiveCircle;
+            Setting.WindowView = WindowView;
             mainWindowViewModel.Setting = Setting;
             DelegateCommand command = new DelegateCommand(Closing);
             command.Execute();
@@ -84,6 +98,7 @@ namespace PracticeTask.ViewModel
             CountActiveCircle = Setting.CountActiveCircle;
             Speed = Setting.Speed;
             CountCircle = Setting.CountCircle;
+            WindowView = Setting.WindowView;
         }
     }
 }

@@ -13,20 +13,17 @@ namespace PracticeTask.Model.Base
     {
         public virtual double X { get; set; }
         public virtual double Y { get; set; }
-        //public virtual double Height { get; set; }
-        //public virtual double Width { get; set; }
+        public virtual double Z { get; set; }
         public virtual bool IsActive { get; set; }
         public virtual bool IsActiveColor { get; set; }
-        public static double SizeCircle { get; set; }
-        public Circle(double x, double y, double sizeCircle, /*double height, double width,*/ bool isActive, bool isActiveColor)
+        public virtual double SizeCircle { get; set; }
+        public virtual double VectorX { get; set; }
+        public virtual double VectorY { get; set; }
+        public virtual double VectorZ { get; set; }
+        public Circle(bool isActive, bool isActiveColor)
         {
-            X = x;
-            Y = y;
-            //Height = height;
-            //Width = width;
             IsActive = isActive;
             IsActiveColor = isActiveColor;
-            SizeCircle = sizeCircle;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

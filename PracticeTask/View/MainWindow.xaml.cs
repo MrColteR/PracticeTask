@@ -33,7 +33,7 @@ namespace PracticeTask
         {
             InitializeComponent();
             jsonFileService = new JsonFileService();
-            DataContext = viewModel = new MainWindowViewModel(new SettingWindowService(), new TestWindowService());
+            DataContext = viewModel = new MainWindowViewModel(new SettingWindowService(), new TestWindow2DService(), new TestWindow3DService());
             Closed += MainWindow_Closed;
         }
 

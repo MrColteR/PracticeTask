@@ -1,12 +1,10 @@
-﻿<Window x:Class="PracticeTask.View.TestWindow"
+﻿<Window x:Class="PracticeTask.View.TestWindow2D"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PracticeTask.View"
-        xmlns:vm="clr-namespace:PracticeTask.ViewModel"
         xmlns:convHeight="clr-namespace:PracticeTask"
-        xmlns:convWidth="clr-namespace:PracticeTask"
         mc:Ignorable="d"
         Title="TestWindow"
         Height="450"
@@ -33,9 +31,19 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Canvas x:Name="Canvas">
-                        <Ellipse Width="{Binding SizeCircle}"
-                                 Height="{Binding SizeCircle}"
-                                 PreviewMouseDown="Ellipse_PreviewMouseDown">
+                        <Ellipse PreviewMouseDown="Ellipse_PreviewMouseDown">
+                            <Ellipse.Width>
+                                <MultiBinding Converter="{StaticResource multivalueConverter}">
+                                    <Binding Path="SizeCircle"/>
+                                    <Binding ElementName="ItemsControl" Path="ActualWidth"/>
+                                </MultiBinding>
+                            </Ellipse.Width>
+                            <Ellipse.Height>
+                                <MultiBinding Converter="{StaticResource multivalueConverter}">
+                                    <Binding Path="SizeCircle"/>
+                                    <Binding ElementName="ItemsControl" Path="ActualWidth"/>
+                                </MultiBinding>
+                            </Ellipse.Height>
                             <Canvas.Left>
                                 <MultiBinding Converter="{StaticResource multivalueConverter}">
                                     <Binding Path="X"/>
@@ -56,9 +64,6 @@
                                             <Setter Property="StrokeThickness" Value="2"/>
                                             <Setter Property="Stroke" Value="Black"/>
                                         </DataTrigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Fill" Value="Yellow"/>
-                                        </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Ellipse.Resources>
