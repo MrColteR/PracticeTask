@@ -67,56 +67,60 @@
                       Grid.Row="0"
                       ItemsSource="{Binding Circles}"
                       Visibility="{Binding ItemsControlVisibility}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Name="Canvas" Margin="5" Background="red">
+
+                    </Canvas>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <!--<Viewbox>-->
-                        <Canvas Name="Canvas"
-                                Width="800"
-                                Height="450" Margin="5" Background="red">
-                            <Canvas.Left>
-                                <MultiBinding Converter="{StaticResource multivalueConverter}">
-                                    <Binding Path="X"/>
-                                    <Binding ElementName="Canvas" Path="ActualWidth"/>
-                                </MultiBinding>
-                            </Canvas.Left>
-                            <Canvas.Top>
-                                <MultiBinding Converter="{StaticResource multivalueConverter}">
-                                    <Binding Path="Y"/>
-                                    <Binding ElementName="Canvas" Path="ActualHeight"/>
-                                </MultiBinding>
-                            </Canvas.Top>
-                            <Viewport3D Width="800"
-                                        Height="450">
-                                <Viewport3D.Camera>
-                                    <PerspectiveCamera Position="0 0 -3"
+
+                    <Viewport3D Width="800"
+                                Height="450">
+                        <Canvas.Left>
+                            <MultiBinding Converter="{StaticResource multivalueConverter}">
+                                <Binding Path="X"/>
+                                <Binding ElementName="ItemsControl" Path="ActualWidth"/>
+                            </MultiBinding>
+                        </Canvas.Left>
+                        <Canvas.Top>
+                            <MultiBinding Converter="{StaticResource multivalueConverter}">
+                                <Binding Path="Y"/>
+                                <Binding ElementName="ItemsControl" Path="ActualHeight"/>
+                            </MultiBinding>
+                        </Canvas.Top>
+                        <Viewport3D.Camera>
+                            <PerspectiveCamera Position="0 0 -3"
                                                        LookDirection="0 0 1"
                                                        UpDirection="0 1 0"
                                                        FieldOfView="100" />
-                                </Viewport3D.Camera>
-                                <Viewport3D.Children>
-                                    <ModelVisual3D>
-                                        <Viewport2DVisual3D>
-                                            <Viewport2DVisual3D.Geometry>
-                                                <MultiBinding Converter="{StaticResource Converter3D}">
-                                                    <Binding Path="SizeCircle"/>
-                                                    <Binding Path="X"/>
-                                                    <Binding Path="Y"/>
-                                                    <Binding Path="Z"/>
-                                                    <Binding ElementName="Canvas" Path="ActualWidth"/>
-                                                    <Binding ElementName="Canvas" Path="ActualHeight"/>
-                                                </MultiBinding>
-                                            </Viewport2DVisual3D.Geometry>
-                                            <Viewport2DVisual3D.Material>
-                                                <MaterialGroup>
-                                                    <DiffuseMaterial Brush="Black" />
-                                                    <EmissiveMaterial Brush="LightGray" />
-                                                </MaterialGroup>
-                                            </Viewport2DVisual3D.Material>
-                                        </Viewport2DVisual3D>
-                                    </ModelVisual3D>
-                                </Viewport3D.Children>
-                            </Viewport3D>
-                        </Canvas>
+                        </Viewport3D.Camera>
+                        <Viewport3D.Children>
+                            <ModelVisual3D>
+                                <Viewport2DVisual3D>
+                                    <Viewport2DVisual3D.Geometry>
+                                        <MultiBinding Converter="{StaticResource Converter3D}">
+                                            <Binding Path="SizeCircle"/>
+                                            <Binding Path="X"/>
+                                            <Binding Path="Y"/>
+                                            <Binding Path="Z"/>
+                                            <Binding ElementName="Canvas" Path="ActualWidth"/>
+                                            <Binding ElementName="Canvas" Path="ActualHeight"/>
+                                        </MultiBinding>
+                                    </Viewport2DVisual3D.Geometry>
+                                    <Viewport2DVisual3D.Material>
+                                        <MaterialGroup>
+                                            <DiffuseMaterial Brush="Black" />
+                                            <EmissiveMaterial Brush="LightGray" />
+                                        </MaterialGroup>
+                                    </Viewport2DVisual3D.Material>
+                                </Viewport2DVisual3D>
+                            </ModelVisual3D>
+                        </Viewport3D.Children>
+                    </Viewport3D>
                     <!--</Viewbox>-->
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

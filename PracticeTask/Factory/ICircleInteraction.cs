@@ -12,7 +12,7 @@ namespace PracticeTask.Factory
 {
     public interface ICircleInteraction
     {
-        ObservableCollection<Circle> CreateElipse(); // Создание шариков 
+        ObservableCollection<Circle> CreateElipse(); // Создание шариков Ienum
         void Timer_Tick(ObservableCollection<Circle> circles,ref int IsStop, double heightItemsControl, double widthItemsControl); // Перемещение шариков на экране
         ObservableCollection<Circle> Timer_Restart(ObservableCollection<Circle> circles, bool IsRight); //Добавление шарика при правильном ответе
     }
