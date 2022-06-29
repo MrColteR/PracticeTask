@@ -114,30 +114,30 @@ namespace PracticeTask.Factory
                 if (Сircles[i].X <= -1)
                 {
                     Сircles[i].VectorX = -Сircles[i].VectorX;
-                    Сircles[i].X = 0;
-                    Сircles[i].Y = 0;
-                    Сircles[i].Z = 0;
+                    //Сircles[i].X = 0;
+                    //Сircles[i].Y = 0;
+                    //Сircles[i].Z = 0;
                 }
                 if (Сircles[i].X >= 1)
                 {
                     Сircles[i].VectorX = -Сircles[i].VectorX;
-                    Сircles[i].X = 0;
-                    Сircles[i].Y = 0;
-                    Сircles[i].Z = 0;
+                    //Сircles[i].X = 0;
+                    //Сircles[i].Y = 0;
+                    //Сircles[i].Z = 0;
                 }
                 if (Сircles[i].Y <= -1)
                 {
                     Сircles[i].VectorY = -Сircles[i].VectorY;
-                    Сircles[i].X = 0;
-                    Сircles[i].Y = 0;
-                    Сircles[i].Z = 0;
+                    //Сircles[i].X = 0;
+                    //Сircles[i].Y = 0;
+                    //Сircles[i].Z = 0;
                 }
                 if (Сircles[i].Y >= 1)
                 {
                     Сircles[i].VectorY = -Сircles[i].VectorY;
-                    Сircles[i].X = 0;
-                    Сircles[i].Y = 0;
-                    Сircles[i].Z = 0;
+                    //Сircles[i].X = 0;
+                    //Сircles[i].Y = 0;
+                    //Сircles[i].Z = 0;
                 }
                 Сircles[i].X += 2 * Сircles[i].VectorX;
                 Сircles[i].Y += 2 * Сircles[i].VectorY;

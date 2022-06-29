@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PracticeTask.View"
         xmlns:convHeight="clr-namespace:PracticeTask"
         mc:Ignorable="d"
-        Title="TestWindow"
+        Title="TestWindow2D"
         Height="450"
         Width="800"
         WindowStartupLocation="CenterScreen"
