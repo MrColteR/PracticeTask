@@ -21,19 +21,20 @@ namespace PracticeTask
             double x = (double)values[1];
             double y = (double)values[2];
             double z = (double)values[3];
-            double absoluteСoordinateWidth = (double)values[4];
-            double absoluteСoordinateHeight = (double)values[5];
 
             SphereMeshGenerator sphere = new SphereMeshGenerator();
             {
-                sphere.Center = new System.Windows.Media.Media3D.Point3D(x, y, z);
-                sphere.Radius = size;
+                sphere.Center = new Point3D(x, y, z);
+                sphere.Radius = 0.1;
                 sphere.Stacks = 16;
                 sphere.Slices = 32;
             };
             return sphere.Geometry;
         }
-
+        //private double CoordinateTransformation(double coordinate) // y = 2x - 1 Преобразование из (0;1) в (-1;1)
+        //{
+        //    return 2 * coordinate - 1;
+        //}
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

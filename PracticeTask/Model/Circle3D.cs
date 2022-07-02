@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PracticeTask.Model
 {
@@ -30,7 +31,7 @@ namespace PracticeTask.Model
             }
         }
         private double z;
-        public double Z
+        public override double Z
         {
             get => z;
             set
@@ -85,13 +86,39 @@ namespace PracticeTask.Model
             set
             {
                 isActiveColor = value;
+                if (IsActiveColor == true)
+                {
+                    Material3DCircle = Brushes.Red;
+                }
+                else
+                {
+                    Material3DCircle = Brushes.Yellow;
+                }
                 OnPropertyChanged(nameof(IsActiveColor));
+            }
+        }
+        private Brush material3DCircle;
+        public override Brush Material3DCircle
+        {
+            get => material3DCircle;
+            set
+            {
+                material3DCircle = value;
+                OnPropertyChanged(nameof(Material3DCircle));
             }
         }
         public Circle3D(bool isActive, bool isActiveColor) : base( isActive, isActiveColor)
         {
             IsActive = isActive;
             IsActiveColor = isActiveColor;
+            if (IsActiveColor == true)
+            {
+                Material3DCircle = Brushes.Red;
+            }
+            else
+            {
+                Material3DCircle = Brushes.Yellow;
+            }
         }
     }
 }

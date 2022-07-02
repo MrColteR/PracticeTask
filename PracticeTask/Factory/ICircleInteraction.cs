@@ -2,6 +2,7 @@
 using PracticeTask.Model.Base;
 using PracticeTask.ViewModel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace PracticeTask.Factory
 {
     public interface ICircleInteraction
     {
-        ObservableCollection<Circle> CreateElipse(); // Создание шариков Ienum
-        void Timer_Tick(ObservableCollection<Circle> circles,ref int IsStop, double heightItemsControl, double widthItemsControl); // Перемещение шариков на экране
-        ObservableCollection<Circle> Timer_Restart(ObservableCollection<Circle> circles, bool IsRight); //Добавление шарика при правильном ответе
+        IEnumerable<Circle> CreateElipse(); // Создание шариков IEnumerable
+        void Timer_Tick(IEnumerable<Circle> circles, ref int IsStop, ref bool IsCompleted, double heightItemsControl, double widthItemsControl); // Перемещение шариков на экране
+        void Timer_Restart(IEnumerable<Circle> circles, bool IsRight); //Добавление шарика при правильном ответе
     }
 }

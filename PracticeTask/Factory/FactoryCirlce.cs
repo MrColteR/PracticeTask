@@ -10,13 +10,7 @@ namespace PracticeTask.Factory
 {
     public static class FactoryCirlce
     {
-        public static ICircleInteraction Circle2D(Setting setting)
-        {
-            return new Circle2DInteraction(setting);
-        }
-        public static ICircleInteraction Circle3D(Setting setting)
-        {
-            return new Circle3DInteraction(setting);
-        }
+        public static ICircleInteraction Circle2D(Setting setting) => new Circle2DInteraction(setting);
+        public static ICircleInteraction Circle3D(Setting setting) => new Circle3DInteraction(setting);
     }
 }

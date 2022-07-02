@@ -4,6 +4,7 @@ using PracticeTask.Model.Base;
 using PracticeTask.ViewModel.Base;
 using Prism.Commands;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -26,6 +27,7 @@ namespace PracticeTask.ViewModel
         private bool IsStarted { get; set; }
         private bool IsChecked { get; set; }
         private int IsStop;
+        private bool IsCompleted;
         private DispatcherTimer Timer { get; set; }
         private DispatcherTimer TimerRestart { get; set; }
         private int LevelOfDifficultyUp { get; set; }
@@ -126,7 +128,6 @@ namespace PracticeTask.ViewModel
             {
                 Circles[i].IsActiveColor = false;
             }
-
             Timer = new DispatcherTimer();
             Timer.Tick += Timer_Tick;
             Timer.Interval = new TimeSpan(0, 0, 0, 0, 20);
@@ -137,8 +138,8 @@ namespace PracticeTask.ViewModel
 
         public void Timer_Tick(object sender, EventArgs e)
         {
-            interaction.Timer_Tick(Circles, ref IsStop, HeightItemsControl, WidthItemsControl);
-            if (IsStop >= 4000)
+            interaction.Timer_Tick(Circles, ref IsStop, ref IsCompleted, HeightItemsControl, WidthItemsControl);
+            if (IsStop >= 500)
             {
                 IsStarted = false;
                 for (int i = 0; i < Circles.Count; i++)
@@ -173,7 +174,6 @@ namespace PracticeTask.ViewModel
                 TextBlockText = "Повезло";
                 LevelOfDifficultyUp++;
                 IncreasingLevelOfDifficulty();
-
             }
             else
             {
@@ -201,12 +201,13 @@ namespace PracticeTask.ViewModel
                 {
                     Circles[i].IsActiveColor = false;
                 }
-            }            
+            }
             ButtonStartVisibility = "Visible";
             ItemsControlVisibility = "Visible";
             ButtonCheckVisibility = "Collapsed";
             TextBlockVisible = "Collapsed";
             IsRight = false;
+            IsCompleted = true;
 
             interaction.Timer_Restart(Circles, IsRight);
             TimerRestart.Stop();
@@ -214,7 +215,7 @@ namespace PracticeTask.ViewModel
         public void CreateElipse()
         {
             Setting.SizeCircle = 0.03;
-            Circles = interaction.CreateElipse();
+            Circles = (ObservableCollection<Circle>)interaction.CreateElipse();
         }
         private void IncreasingLevelOfDifficulty()
         {
@@ -260,6 +261,7 @@ namespace PracticeTask.ViewModel
             ButtonCheckVisibility = "Collapsed";
             TextBlockVisible = "Collapsed";
             IsStop = 0;
+            IsCompleted = false;
             LevelOfDifficultyUp = 0;
             LevelOfDifficultyDown = 0;
 

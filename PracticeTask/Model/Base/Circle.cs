@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PracticeTask.Model.Base
 {
@@ -20,6 +21,7 @@ namespace PracticeTask.Model.Base
         public virtual double VectorX { get; set; }
         public virtual double VectorY { get; set; }
         public virtual double VectorZ { get; set; }
+        public virtual Brush Material3DCircle { get; set; }
         public Circle(bool isActive, bool isActiveColor)
         {
             IsActive = isActive;

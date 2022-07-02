@@ -2,6 +2,7 @@
 using PracticeTask.Model.Base;
 using PracticeTask.ViewModel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,9 +18,10 @@ namespace PracticeTask.Factory
         private readonly Setting setting;
         private readonly List<double> coordinateX;
         private readonly List<double> coordinateY;
-        public ObservableCollection<Circle> CreateElipse()
+        public IEnumerable<Circle> CreateElipse()
         {
             ObservableCollection<Circle> Circles = new ObservableCollection<Circle>();
+            Circles.GetEnumerator();
             var temp = 0;
             for (int i = 0; i < setting.CountCircle; i++)
             {
@@ -98,40 +100,52 @@ namespace PracticeTask.Factory
 
             return result;
         }
-        public void Timer_Tick(ObservableCollection<Circle> Сircles,ref int IsStop, double heightItemsControl, double widthItemsControl)
+        public void Timer_Tick(IEnumerable<Circle> circles, ref int IsStop, ref bool IsCompleted, double heightItemsControl, double widthItemsControl)
         {
-            for (int i = 0; i < Сircles.Count; i++)
+            ObservableCollection<Circle> Circles = circles as ObservableCollection<Circle>;
+            if (IsCompleted) // Изменения векторов скорости при 2 и последующих запусках
             {
-                if (Сircles[i].X <= 0)
+                for (int i = 0; i < Circles.Count; i++)
                 {
-                    Сircles[i].VectorX = -Сircles[i].VectorX;
-                    Сircles[i].X = 0;
+                    var coordinate = GetRandomVector(setting.Speed);
+                    Circles[i].VectorX = coordinate[0];
+                    Circles[i].VectorY = coordinate[1];
                 }
-                if (Сircles[i].X >= 1 - setting.SizeCircle)
+                IsCompleted = false;
+            }
+
+            for (int i = 0; i < Circles.Count; i++)
+            {
+                if (Circles[i].X <= 0)
                 {
-                    Сircles[i].VectorX = -Сircles[i].VectorX;
-                    Сircles[i].X = 1 - setting.SizeCircle;
+                    Circles[i].VectorX = -Circles[i].VectorX;
+                    Circles[i].X = 0;
                 }
-                if (Сircles[i].Y <= 0)
+                if (Circles[i].X >= 1 - setting.SizeCircle)
                 {
-                    Сircles[i].VectorY = -Сircles[i].VectorY;
-                    Сircles[i].Y = 0;
+                    Circles[i].VectorX = -Circles[i].VectorX;
+                    Circles[i].X = 1 - setting.SizeCircle;
                 }
-                if (Сircles[i].Y >= 1 - setting.SizeCircle * 2)
+                if (Circles[i].Y <= 0)
                 {
-                    Сircles[i].VectorY = -Сircles[i].VectorY;
-                    Сircles[i].Y = 1 - setting.SizeCircle * 2;
+                    Circles[i].VectorY = -Circles[i].VectorY;
+                    Circles[i].Y = 0;
+                }
+                if (Circles[i].Y >= 1 - setting.SizeCircle * 2)
+                {
+                    Circles[i].VectorY = -Circles[i].VectorY;
+                    Circles[i].Y = 1 - setting.SizeCircle * 2;
                 }
 
-                for (int j = 0; j < Сircles.Count; j++)
+                for (int j = 0; j < Circles.Count; j++)
                 {
                     if (j != i)
                     {
                         // Расстояние между шариками
-                        double Dx = Сircles[j].X * widthItemsControl
-                                  - Сircles[i].X * widthItemsControl;
-                        double Dy = Сircles[j].Y * heightItemsControl
-                                  - Сircles[i].Y * heightItemsControl;
+                        double Dx = Circles[j].X * widthItemsControl
+                                  - Circles[i].X * widthItemsControl;
+                        double Dy = Circles[j].Y * heightItemsControl
+                                  - Circles[i].Y * heightItemsControl;
                         double d = Math.Sqrt(Dx * Dx + Dy * Dy);
                         double sin = Dx / d;
                         double cos = Dy / d;
@@ -139,8 +153,8 @@ namespace PracticeTask.Factory
                         if (d <= setting.SizeCircle * widthItemsControl)
                         {
                             // Коэфицент K касательной между шариками
-                            double kIncline = (Сircles[i].Y - Сircles[j].Y) 
-                                            / (Сircles[i].X - Сircles[j].X);
+                            double kIncline = (Circles[i].Y - Circles[j].Y) 
+                                            / (Circles[i].X - Circles[j].X);
 
                             // Углы между перпендикулятором к центрам шариков
                             double angleIncline_j = Math.Atan(-1 * kIncline);
@@ -153,10 +167,10 @@ namespace PracticeTask.Factory
                             double unitVectorY_i = Math.Sin(angleIncline_i);
 
                             // Проверка на вхождение шариков друг в друга
-                            double vectorLenght_j = Сircles[j].VectorX * widthItemsControl * sin 
-                                                  + Сircles[j].VectorY * heightItemsControl * cos;
-                            double vectorLenght_i = Сircles[i].VectorX * widthItemsControl * sin 
-                                                  + Сircles[i].VectorY * heightItemsControl * cos;
+                            double vectorLenght_j = Circles[j].VectorX * widthItemsControl * sin 
+                                                  + Circles[j].VectorY * heightItemsControl * cos;
+                            double vectorLenght_i = Circles[i].VectorX * widthItemsControl * sin 
+                                                  + Circles[i].VectorY * heightItemsControl * cos;
                             double dt = (setting.SizeCircle - d) / (vectorLenght_j / vectorLenght_i);
                             if (dt > 1)
                             {
@@ -166,14 +180,14 @@ namespace PracticeTask.Factory
                             {
                                 dt = 1;
                             }
-                            Сircles[i].X -= Сircles[i].VectorX * dt;
-                            Сircles[j].X -= Сircles[j].VectorX * dt;
-                            Сircles[i].X -= Сircles[i].VectorX * dt;
-                            Сircles[j].X -= Сircles[j].VectorX * dt;
+                            Circles[i].X -= Circles[i].VectorX * dt;
+                            Circles[j].X -= Circles[j].VectorX * dt;
+                            Circles[i].X -= Circles[i].VectorX * dt;
+                            Circles[j].X -= Circles[j].VectorX * dt;
 
                             // Новые координаты векторов (Отражаем по Y)
-                            double vX_j = Сircles[j].X - (Сircles[j].X + Сircles[i].X) / 2;
-                            double vY_j = -1 * (Сircles[j].Y - (Сircles[j].Y + Сircles[i].Y) / 2);
+                            double vX_j = Circles[j].X - (Circles[j].X + Circles[i].X) / 2;
+                            double vY_j = -1 * (Circles[j].Y - (Circles[j].Y + Circles[i].Y) / 2);
 
                             // Новое расстояние между центрами
                             double dNew;
@@ -186,24 +200,25 @@ namespace PracticeTask.Factory
                                 dNew = -1;
                             }
 
-                            double vLj = Math.Sqrt(Сircles[j].VectorX * Сircles[j].VectorX + Сircles[j].VectorY * Сircles[j].VectorY);
-                            double vLi = Math.Sqrt(Сircles[i].VectorX * Сircles[i].VectorX + Сircles[i].VectorY * Сircles[i].VectorY);
+                            double vLj = Math.Sqrt(Circles[j].VectorX * Circles[j].VectorX + Circles[j].VectorY * Circles[j].VectorY);
+                            double vLi = Math.Sqrt(Circles[i].VectorX * Circles[i].VectorX + Circles[i].VectorY * Circles[i].VectorY);
 
                             // Новые координаты столкнувшихся шариков
-                            Сircles[j].VectorX = dNew * -vLj * unitVectorY_j / (unitVectorX_j * Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1));
-                            Сircles[j].VectorY = dNew * vLj / Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1);
-                            Сircles[i].VectorX = -dNew * -vLi * unitVectorY_i / (unitVectorX_i * Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1)); ;
-                            Сircles[i].VectorY = -dNew * vLi / Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1);
+                            Circles[j].VectorX = dNew * -vLj * unitVectorY_j / (unitVectorX_j * Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1));
+                            Circles[j].VectorY = dNew * vLj / Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1);
+                            Circles[i].VectorX = -dNew * -vLi * unitVectorY_i / (unitVectorX_i * Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1)); ;
+                            Circles[i].VectorY = -dNew * vLi / Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1);
                         }
                     }
                 }
-                Сircles[i].X += Сircles[i].VectorX;
-                Сircles[i].Y += Сircles[i].VectorY;
+                Circles[i].X += Circles[i].VectorX;
+                Circles[i].Y += Circles[i].VectorY;
                 IsStop++;
             }
         }
-        public ObservableCollection<Circle> Timer_Restart(ObservableCollection<Circle> Circles, bool IsRight)
+        public void Timer_Restart(IEnumerable<Circle> circles, bool IsRight)
         {
+            ObservableCollection<Circle> Circles = circles as ObservableCollection<Circle>;
             if (IsRight)
             {
                 Circles.Add(new Circle2D(false, false));
@@ -213,11 +228,6 @@ namespace PracticeTask.Factory
                 Circles[Circles.Count - 1].X = GetRelativeCoordinateX();
                 Circles[Circles.Count - 1].Y = GetRelativeCoordinateY();
                 Circles[Circles.Count - 1].SizeCircle = setting.SizeCircle;
-                return Circles;
-            }
-            else
-            {
-                return Circles;
             }
         }
         public double GetRelativeCoordinateX(List<double> coordinateVectorX)
