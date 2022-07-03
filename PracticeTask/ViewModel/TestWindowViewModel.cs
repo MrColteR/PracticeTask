@@ -214,7 +214,14 @@ namespace PracticeTask.ViewModel
         }
         public void CreateElipse()
         {
-            Setting.SizeCircle = 0.03;
+            if (Setting.WindowView == 0)
+            {
+                Setting.SizeCircle = 0.03;
+            }
+            else
+            {
+                Setting.SizeCircle = 0.1;
+            }
             Circles = (ObservableCollection<Circle>)interaction.CreateElipse();
         }
         private void IncreasingLevelOfDifficulty()
@@ -251,6 +258,7 @@ namespace PracticeTask.ViewModel
                 LevelOfDifficultyUp = 0;
             }
         }
+
         public TestWindowViewModel(MainWindowViewModel viewModel)
         {
             Circles = new ObservableCollection<Circle>();

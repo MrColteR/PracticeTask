@@ -49,7 +49,6 @@ C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\obj\Debug\PracticeTa
 C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.CopyComplete
 C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\obj\Debug\PracticeTask.exe
 C:\Users\Болеслав\Desktop\PracticeTask\PracticeTask\obj\Debug\PracticeTask.pdb
-C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.SuggestedBindingRedirects.cache
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\TestWindow3D.g.cs
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\TestWindow3D.baml
 C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\View\TestWindow2D.g.cs
@@ -83,3 +82,4 @@ C:\Users\Болеслав\Desktop\T\PracticeTask\PracticeTask\obj\Debug\Practice
 C:\Users\Болеслав\Desktop\T\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.CopyComplete
 C:\Users\Болеслав\Desktop\T\PracticeTask\PracticeTask\obj\Debug\PracticeTask.exe
 C:\Users\Болеслав\Desktop\T\PracticeTask\PracticeTask\obj\Debug\PracticeTask.pdb
+C:\Users\MrCol\OneDrive\Рабочий стол\Practice\PracticeTask\PracticeTask\obj\Debug\PracticeTask.csproj.SuggestedBindingRedirects.cache

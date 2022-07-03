@@ -1,7 +1,9 @@
 ﻿using PracticeTask.Model;
+using PracticeTask.Model.Base;
 using PracticeTask.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +25,6 @@ namespace PracticeTask.View
     public partial class TestWindow3D : Window
     {
         private readonly TestWindowViewModel viewModel;
-        private Viewport3D viewport;
         public TestWindow3D(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
@@ -39,80 +40,59 @@ namespace PracticeTask.View
         {
             viewModel.HeightItemsControl = ActualHeight;
             viewModel.WidthItemsControl = ActualWidth;
+
+            for (int i = 0; i < viewModel.Circles.Count; i++)
+            {
+                Binding binding = new Binding("Material3DCircle") { Source = viewModel.Circles[i] };
+
+                MultiBinding multiBinding = new MultiBinding();
+                multiBinding.Converter = new Converter3D();
+                multiBinding.Bindings.Add(new Binding("SizeCircle") { Source = viewModel.Circles[i] });
+                multiBinding.Bindings.Add(new Binding("X") { Source = viewModel.Circles[i] });
+                multiBinding.Bindings.Add(new Binding("Y") { Source = viewModel.Circles[i] });
+                multiBinding.Bindings.Add(new Binding("Z") { Source = viewModel.Circles[i] });
+
+                var visual2d = new Viewport2DVisual3D();
+                var material = new DiffuseMaterial();
+
+                BindingOperations.SetBinding(visual2d, Viewport2DVisual3D.GeometryProperty, multiBinding);
+                BindingOperations.SetBinding(material, DiffuseMaterial.BrushProperty, binding);
+
+                visual2d.Material = material;
+                viewport3D.Children.Add(visual2d);
+            }
         }
 
         private void Viewport3D_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var elp = (sender as FrameworkElement).DataContext as Circle3D;
-            elp.IsActiveColor = !elp.IsActiveColor;
+            var elp = (sender as FrameworkElement).DataContext as Circle3D; // Как отследить конкретный шарик
+            if (elp != null)
+            {
+                //elp.IsActiveColor = !elp.IsActiveColor;
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            viewport = this.ItemsControl.DataContext as Viewport3D;
-            var a = viewport;
-            //if (e.Key == Key.Right)
-            //{
-            //    Rotate(10);
-            //}
-            //else if (e.Key == Key.Left)
-            //{
-            //    Rotate(-10);
-            //}
-            //else if (e.Key == Key.Up)
-            //{
-            //    Move(-10);
-            //}
-            //else if (e.Key == Key.Down)
-            //{
-            //    Move(10);
-            //}
-            //else if (e.Key == Key.PageUp)
-            //{
-            //    RotateVertical(10);
-            //}
-            //else if (e.Key == Key.PageDown)
-            //{
-            //    RotateVertical(-10);
-            //}
+            
+            if (e.Key == Key.Right)
+            {
+                if (camera.LookDirection.X < 0.82)
+                {
+                    camera.LookDirection = new Vector3D(camera.LookDirection.X + 0.02, 0, -2);
+                }
+            }
+            else if (e.Key == Key.Left)
+            {
+                if (camera.LookDirection.X > -0.82)
+                {
+                    camera.LookDirection = new Vector3D(camera.LookDirection.X - 0.02, 0, -2);
+                }
+            }
+            else if (e.Key == Key.Up)
+            {
+                camera.LookDirection = new Vector3D(0, 0, -2);
+            }
         }
-        //public void Move(double d)
-        //{
-        //    double u = 0.05;
-        //    PerspectiveCamera camera = (PerspectiveCamera)Viewport3D.Camera;
-        //    Vector3D lookDirection = camera.LookDirection;
-        //    Point3D position = camera.Position;
-
-        //    lookDirection.Normalize();
-        //    position = position + u * lookDirection * d;
-
-        //    camera.Position = position;
-        //}
-        //public void Rotate(double d)
-        //{
-        //    double u = 0.05;
-        //    double angleD = u * d;
-        //    PerspectiveCamera camera = (PerspectiveCamera)Viewport3D.Camera;
-        //    Vector3D lookDirection = camera.LookDirection;
-
-        //    var m = new Matrix3D();
-        //    m.Rotate(new Quaternion(camera.UpDirection, -angleD)); // Rotate about the camera's up direction to look left/right
-        //    camera.LookDirection = m.Transform(camera.LookDirection);
-        //}
-        //public void RotateVertical(double d)
-        //{
-        //    double u = 0.05;
-        //    double angleD = u * d;
-        //    PerspectiveCamera camera = (PerspectiveCamera)Viewport3D.Camera;
-        //    Vector3D lookDirection = camera.LookDirection;
-
-        //    // Cross Product gets a vector that is perpendicular to the passed in vectors (order does matter, reverse the order and the vector will point in the reverse direction)
-        //    var cp = Vector3D.CrossProduct(camera.UpDirection, lookDirection);
-        //    cp.Normalize();
-
-        //    var m = new Matrix3D();
-        //    m.Rotate(new Quaternion(cp, -angleD)); // Rotate about the vector from the cross product
-        //    camera.LookDirection = m.Transform(camera.LookDirection);
-        //}
     }
 }

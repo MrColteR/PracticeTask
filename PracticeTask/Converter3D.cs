@@ -25,7 +25,7 @@ namespace PracticeTask
             SphereMeshGenerator sphere = new SphereMeshGenerator();
             {
                 sphere.Center = new Point3D(x, y, z);
-                sphere.Radius = 0.1;
+                sphere.Radius = size;
                 sphere.Stacks = 16;
                 sphere.Slices = 32;
             };
