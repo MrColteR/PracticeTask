@@ -171,21 +171,31 @@ namespace PracticeTask.Factory
                          
                         if (d <= setting.SizeCircle * 2)
                         {
-                            // Коэфицент K касательной между шариками
+                            // Коэфицент K касательной между шариками (X и Y)
                             double kIncline = (Сircles[i].Y - Сircles[j].Y)
                                             / (Сircles[i].X - Сircles[j].X);
 
-                            // Углы между перпендикулятором к центрам шариков
+                            // Коэфицент K касательной между шариками (Z и Y)
+                            double kInclineZ = (Сircles[i].Y - Сircles[j].Y)
+                                            / (Сircles[i].Z - Сircles[j].Z);
+
+                            // Углы между перпендикулятором к центрам шариков (X и Y)
                             double angleIncline_j = Math.Atan(-1 * kIncline);
                             double angleIncline_i = Math.Atan(-1 * kIncline);
+
+                            // Углы между перпендикулятором к центрам шариков (Z и Y)
+                            double angleInclineZ_j = Math.Atan(-1 * kInclineZ);
+                            double angleInclineZ_i = Math.Atan(-1 * kInclineZ);
 
                             // Единичный векторы скорости перпендикуляров
                             double unitVectorX_j = Math.Cos(angleIncline_j);
                             double unitVectorY_j = Math.Sin(angleIncline_j);
                             double unitVectorX_i = Math.Cos(angleIncline_i);
                             double unitVectorY_i = Math.Sin(angleIncline_i);
+                            double unitVectorZ_i = Math.Cos(angleInclineZ_i);
+                            double unitVectorZ_j = Math.Sin(angleInclineZ_i);
 
-                            // Проверка на вхождение шариков друг в друга
+                            // Проверка на вхождение шариков друг в друга (X и Y)
                             double vectorLenght_j = Сircles[j].VectorX * sin
                                                   + Сircles[j].VectorY * cos;
                             double vectorLenght_i = Сircles[i].VectorX * sin
@@ -201,8 +211,7 @@ namespace PracticeTask.Factory
                             }
                             Сircles[i].X -= Сircles[i].VectorX * dt;
                             Сircles[j].X -= Сircles[j].VectorX * dt;
-                            Сircles[i].X -= Сircles[i].VectorX * dt;
-                            Сircles[j].X -= Сircles[j].VectorX * dt;
+                            
 
                             // Новые координаты векторов (Отражаем по Y)
                             double vX_j = Сircles[j].X - (Сircles[j].X + Сircles[i].X) / 2;
@@ -222,15 +231,17 @@ namespace PracticeTask.Factory
                             double vLj = Math.Sqrt(Сircles[j].VectorX * Сircles[j].VectorX + Сircles[j].VectorY * Сircles[j].VectorY);
                             double vLi = Math.Sqrt(Сircles[i].VectorX * Сircles[i].VectorX + Сircles[i].VectorY * Сircles[i].VectorY);
 
+                            double vLjZ = Math.Sqrt(Сircles[j].VectorZ * Сircles[j].VectorZ + Сircles[j].VectorY * Сircles[j].VectorY);
+                            double vLiZ = Math.Sqrt(Сircles[i].VectorZ * Сircles[i].VectorZ + Сircles[i].VectorY * Сircles[i].VectorY);
+
                             // Новые координаты столкнувшихся шариков
                             Сircles[j].VectorX = dNew * -vLj * unitVectorY_j / (unitVectorX_j * Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1));
                             Сircles[j].VectorY = dNew * vLj / Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1);
-                            Сircles[i].VectorX = -dNew * -vLi * unitVectorY_i / (unitVectorX_i * Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1)); ;
+                            Сircles[i].VectorX = -dNew * -vLi * unitVectorY_i / (unitVectorX_i * Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1));
                             Сircles[j].VectorY = -dNew * vLi / Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1);
-                            Сircles[i].VectorZ = -Сircles[i].VectorZ;
-                            Сircles[j].VectorZ = -Сircles[j].VectorZ;
-                            Сircles[i].VectorZ += Сircles[i].VectorZ;
-                            Сircles[j].VectorZ += Сircles[j].VectorZ;
+
+                            Сircles[i].VectorZ = dNew * vLjZ / Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorZ_j, 2)) + 1);
+                            Сircles[j].VectorZ = -dNew * vLiZ / Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorZ_i, 2)) + 1);
                         }
                     }
                     Сircles[i].X += Сircles[i].VectorX;

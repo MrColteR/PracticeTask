@@ -182,8 +182,6 @@ namespace PracticeTask.Factory
                             }
                             Circles[i].X -= Circles[i].VectorX * dt;
                             Circles[j].X -= Circles[j].VectorX * dt;
-                            Circles[i].X -= Circles[i].VectorX * dt;
-                            Circles[j].X -= Circles[j].VectorX * dt;
 
                             // Новые координаты векторов (Отражаем по Y)
                             double vX_j = Circles[j].X - (Circles[j].X + Circles[i].X) / 2;
