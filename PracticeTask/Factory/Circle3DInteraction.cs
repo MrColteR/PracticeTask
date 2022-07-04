@@ -199,10 +199,10 @@ namespace PracticeTask.Factory
                             {
                                 dt = 1;
                             }
-                            Сircles[i].X -= 2 * Сircles[i].VectorX * dt;
-                            Сircles[j].X -= 2 * Сircles[j].VectorX * dt;
-                            Сircles[i].X -= 2 * Сircles[i].VectorX * dt;
-                            Сircles[j].X -= 2 * Сircles[j].VectorX * dt;
+                            Сircles[i].X -= Сircles[i].VectorX * dt;
+                            Сircles[j].X -= Сircles[j].VectorX * dt;
+                            Сircles[i].X -= Сircles[i].VectorX * dt;
+                            Сircles[j].X -= Сircles[j].VectorX * dt;
 
                             // Новые координаты векторов (Отражаем по Y)
                             double vX_j = Сircles[j].X - (Сircles[j].X + Сircles[i].X) / 2;
@@ -227,8 +227,8 @@ namespace PracticeTask.Factory
                             Сircles[j].VectorY = dNew * vLj / Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1);
                             Сircles[i].VectorX = -dNew * -vLi * unitVectorY_i / (unitVectorX_i * Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1)); ;
                             Сircles[j].VectorY = -dNew * vLi / Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1);
-                            Сircles[i].VectorZ = -Сircles[i].VectorZ;
-                            Сircles[j].VectorZ = -Сircles[i].VectorZ;
+                            Сircles[i].VectorZ = dNew * -vLj * unitVectorY_j / (unitVectorX_j * Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1)); ;
+                            Сircles[j].VectorZ = dNew * vLi / Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1); ;
                         }
                     }
                     Сircles[i].X += Сircles[i].VectorX;

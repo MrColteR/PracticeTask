@@ -27,7 +27,7 @@ namespace PracticeTask.ViewModel
         public event Action DeleteCircle3DAction; // Делегат для удаления Circle3D
         private bool IsRight { get; set; } // Булеан для проверки правильности ответа пользователя
         private bool IsStarted { get; set; } // Булеан для отслеживания начатия движения
-        private bool IsChecked { get; set; } // Булеан для отслеживания начатия проверки
+        public bool IsChecked { get; set; } // Булеан для отслеживания начатия проверки
         private int IsStop; // Счетчик для остановки таймера
         private bool IsCompleted; // Булеан для изменения векторов скорости при 2 и последующих старотов
         private bool IsIncreasingLevelOfDifficulty { get; set; } // Булеан для добавления Circle3D
@@ -247,6 +247,21 @@ namespace PracticeTask.ViewModel
             }
             Circles = (ObservableCollection<Circle>)interaction.CreateElipse();
         }
+        public void PressOnCircle3D(double x, double y, double z)
+        {
+            if (!IsChecked)
+            {
+                for (int i = 0; i < Circles.Count; i++)
+                {
+                    if (Math.Round(Circles[i].X, 2) == Math.Round(x + Circles[i].SizeCircle, 2) &&
+                        Math.Round(Circles[i].Y, 2) == Math.Round(y + Circles[i].SizeCircle, 2) &&
+                        Math.Round(Circles[i].Z, 2) == Math.Round(z + Circles[i].SizeCircle, 2))
+                    {
+                        Circles[i].IsActiveColor = !Circles[i].IsActiveColor;
+                    }
+                }
+            }
+        }
         private void IncreasingLevelOfDifficulty()
         {
             LevelOfDifficultyDown = 0;
@@ -289,7 +304,7 @@ namespace PracticeTask.ViewModel
             Circles = new ObservableCollection<Circle>();
             Setting = viewModel.Setting;
             IsStarted = false;
-            IsChecked = false;
+            IsChecked = true;
             IsShowItemsControl = true;
             IsShowButtonStart = true;
             IsShowButtonCheck = false;

@@ -42,8 +42,11 @@ namespace PracticeTask.View
 
         private void Ellipse_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var elp = (sender as Ellipse).DataContext as Circle2D;
-            elp.IsActiveColor = !elp.IsActiveColor;
+            if (!viewModel.IsChecked)
+            {
+                var elp = (sender as Ellipse).DataContext as Circle2D;
+                elp.IsActiveColor = !elp.IsActiveColor;
+            }
         }
     }
 }

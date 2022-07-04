@@ -92,7 +92,6 @@ namespace PracticeTask.View
         private object selectedModel;
         private void Viewport3D_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            /*var elp = (sender as FrameworkElement).DataContext as Circle3D;*/ // Как отследить конкретный шарик
             selectedModel = sender;
             Point position = e.GetPosition(this);
             viewportHitTest(position);
@@ -103,15 +102,7 @@ namespace PracticeTask.View
             if (selectedModel != null)
             {
                 var coordinate = (selectedModel as GeometryModel3D).Bounds;
-                for (int i = 0; i < viewModel.Circles.Count; i++)
-                {
-                    if (viewModel.Circles[i].X == Math.Round(coordinate.X + viewModel.Circles[i].SizeCircle, 2) &&
-                        viewModel.Circles[i].Y == Math.Round(coordinate.Y + viewModel.Circles[i].SizeCircle, 2) &&
-                        viewModel.Circles[i].Z == Math.Round(coordinate.Z + viewModel.Circles[i].SizeCircle, 2))
-                    {
-                        viewModel.Circles[i].IsActiveColor = !viewModel.Circles[i].IsActiveColor;
-                    }
-                }
+                viewModel.PressOnCircle3D(coordinate.X, coordinate.Y, coordinate.Z);
             }
         }
         private HitTestResultBehavior HitTestResult(HitTestResult result)
