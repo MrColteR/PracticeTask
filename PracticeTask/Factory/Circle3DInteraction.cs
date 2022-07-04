@@ -69,7 +69,7 @@ namespace PracticeTask.Factory
             int randomY = random.Next(1, 3);
             int randomZ = 0;
             int randomPartX = random.Next(2, 4);
-            double speed = settingSpeed * 0.001;
+            double speed = settingSpeed * 0.002;
             double vectorX = 0;
 
             switch (randomPartX)
@@ -81,8 +81,8 @@ namespace PracticeTask.Factory
                     vectorX = speed - speed / 3d;
                     break;
             }
-            double vectorY = (speed - vectorX) / 2d;
-            double vectorZ = Math.Sqrt(Math.Pow(speed, 2) - Math.Pow(vectorX, 2) + Math.Pow(vectorY, 2));
+            double vectorY = (speed - vectorX) / 2d; 
+            double vectorZ = Math.Sqrt(Math.Pow(speed, 2) - Math.Pow(vectorX, 2) + Math.Pow(vectorY, 2)); 
             double[] result = new double[3];
 
             switch (randomX)
@@ -227,8 +227,10 @@ namespace PracticeTask.Factory
                             Сircles[j].VectorY = dNew * vLj / Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1);
                             Сircles[i].VectorX = -dNew * -vLi * unitVectorY_i / (unitVectorX_i * Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1)); ;
                             Сircles[j].VectorY = -dNew * vLi / Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1);
-                            Сircles[i].VectorZ = dNew * -vLj * unitVectorY_j / (unitVectorX_j * Math.Sqrt((Math.Pow(unitVectorY_j, 2) / Math.Pow(unitVectorX_j, 2)) + 1)); ;
-                            Сircles[j].VectorZ = dNew * vLi / Math.Sqrt((Math.Pow(unitVectorY_i, 2) / Math.Pow(unitVectorX_i, 2)) + 1); ;
+                            Сircles[i].VectorZ = -Сircles[i].VectorZ;
+                            Сircles[j].VectorZ = -Сircles[j].VectorZ;
+                            Сircles[i].VectorZ += Сircles[i].VectorZ;
+                            Сircles[j].VectorZ += Сircles[j].VectorZ;
                         }
                     }
                     Сircles[i].X += Сircles[i].VectorX;
