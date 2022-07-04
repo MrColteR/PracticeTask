@@ -31,10 +31,6 @@ namespace PracticeTask
             };
             return sphere.Geometry;
         }
-        //private double CoordinateTransformation(double coordinate) // y = 2x - 1 Преобразование из (0;1) в (-1;1)
-        //{
-        //    return 2 * coordinate - 1;
-        //}
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();

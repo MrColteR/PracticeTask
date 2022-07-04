@@ -57,6 +57,19 @@ namespace PracticeTask.ViewModel
                 }
             } 
         }
+        private int timeTest;
+        public int TimeTest
+        {
+            get => timeTest;
+            set
+            {
+                if (TimeTest != value)
+                {
+                    timeTest = value;
+                    OnPropertyChanged(nameof(TimeTest));
+                }
+            }
+        }
         private int windowView;
         public int WindowView
         {
@@ -73,9 +86,10 @@ namespace PracticeTask.ViewModel
 
         void CloseAndSave()
         {
-            Setting.Speed = Speed;
             Setting.CountCircle = CountCircle;
             Setting.CountActiveCircle = CountActiveCircle;
+            Setting.Speed = Speed;
+            Setting.TimeTest = TimeTest;
             Setting.WindowView = WindowView;
             mainWindowViewModel.Setting = Setting;
             DelegateCommand command = new DelegateCommand(Closing);
@@ -96,8 +110,9 @@ namespace PracticeTask.ViewModel
             this.mainWindowViewModel = mainWindowViewModel;
             Setting = mainWindowViewModel.Setting;
             CountActiveCircle = Setting.CountActiveCircle;
-            Speed = Setting.Speed;
             CountCircle = Setting.CountCircle;
+            Speed = Setting.Speed;
+            TimeTest = Setting.TimeTest;
             WindowView = Setting.WindowView;
         }
     }

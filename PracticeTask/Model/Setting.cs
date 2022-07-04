@@ -13,7 +13,9 @@ namespace PracticeTask.Model
     {
         private int countCircle;
         [DataMember]
-        public int CountCircle { get { return countCircle; }  
+        public int CountCircle 
+        {
+            get => countCircle; 
             set 
             {
                 countCircle = value;
@@ -22,7 +24,9 @@ namespace PracticeTask.Model
         }
         private int countActiveCircle;
         [DataMember]
-        public int CountActiveCircle { get { return countActiveCircle; } 
+        public int CountActiveCircle 
+        { 
+            get => countActiveCircle; 
             set 
             {
                 countActiveCircle = value;
@@ -31,7 +35,9 @@ namespace PracticeTask.Model
         }
         private int speed;
         [DataMember]
-        public int Speed { get { return speed; } 
+        public int Speed 
+        { 
+            get => speed; 
             set 
             {
                 speed = value;
@@ -42,11 +48,22 @@ namespace PracticeTask.Model
         [DataMember]
         public double SizeCircle
         {
-            get { return sizeCircle; }
+            get => sizeCircle; 
             set
             {
                 sizeCircle = value;
                 OnPropertyChanged(nameof(SizeCircle));
+            }
+        }
+        private int timeTest;
+        [DataMember]
+        public int TimeTest
+        {
+            get => timeTest;
+            set
+            {
+                timeTest = value;
+                OnPropertyChanged(nameof(TimeTest));
             }
         }
         private int windowView;
@@ -60,12 +77,13 @@ namespace PracticeTask.Model
                 OnPropertyChanged(nameof(WindowView));
             }
         }
-        public Setting(int countCircle, int countActiveCircle, int speed, double sizeCircle, int windowView)
+        public Setting(int countCircle, int countActiveCircle, int speed, double sizeCircle, int timeTest, int windowView)
         {
             CountCircle = countCircle;
             CountActiveCircle = countActiveCircle;
             Speed = speed;
             SizeCircle = sizeCircle;
+            TimeTest = timeTest;
             WindowView = windowView;
         }
 

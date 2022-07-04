@@ -17,7 +17,7 @@ namespace PracticeTask
         {
             if (!File.Exists(filePath))
             {
-                return new Setting(0,0,0,0,0);
+                return new Setting(0,0,0,0,500,0);
             }
             using (StreamReader reader = File.OpenText(filePath))
             {

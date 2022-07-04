@@ -21,18 +21,22 @@ namespace PracticeTask.ViewModel
 {
     public class TestWindowViewModel : ViewModelBase
     {
-        private readonly ICircleInteraction interaction;
-        public event Action Closing;
-        private bool IsRight { get; set; }
-        private bool IsStarted { get; set; }
-        private bool IsChecked { get; set; }
-        private int IsStop;
-        private bool IsCompleted;
-        private DispatcherTimer Timer { get; set; }
-        private DispatcherTimer TimerRestart { get; set; }
-        private int LevelOfDifficultyUp { get; set; }
-        private int LevelOfDifficultyDown { get; set; }
-        public Setting Setting { get; set; }
+        private readonly ICircleInteraction interaction; // Интерфейс для фабрики Circle2D или Circle3D
+        public event Action Closing; // Делегат для закрытия окна
+        public event Action AddNewCircle3DAction; // Делегат для добавления Circle3D
+        public event Action DeleteCircle3DAction; // Делегат для удаления Circle3D
+        private bool IsRight { get; set; } // Булеан для проверки правильности ответа пользователя
+        private bool IsStarted { get; set; } // Булеан для отслеживания начатия движения
+        private bool IsChecked { get; set; } // Булеан для отслеживания начатия проверки
+        private int IsStop; // Счетчик для остановки таймера
+        private bool IsCompleted; // Булеан для изменения векторов скорости при 2 и последующих старотов
+        private bool IsIncreasingLevelOfDifficulty { get; set; } // Булеан для добавления Circle3D
+        private bool IsReducingLevelOfDifficulty { get; set; } // Булеан для удаления Circle3D
+        private DispatcherTimer Timer { get; set; } // Таймер для движения
+        private DispatcherTimer TimerRestart { get; set; } // Таймер для проверки
+        private int LevelOfDifficultyUp { get; set; } // Счет правильных ответов
+        private int LevelOfDifficultyDown { get; set; } // Счетчик неправильных ответов
+        public Setting Setting { get; set; } // Модель настроек
 
         private ObservableCollection<Circle> circles;
         public ObservableCollection<Circle> Circles
@@ -47,34 +51,44 @@ namespace PracticeTask.ViewModel
                 }
             }
         }
-        private string buttonStartVisibility;
-        public string ButtonStartVisibility
+        private bool isShowButtonStart;
+        public bool IsShowButtonStart
         {
-            get => buttonStartVisibility; 
-            set 
-            { 
-                buttonStartVisibility = value; 
-                OnPropertyChanged(nameof(ButtonStartVisibility)); 
-            }
-        }
-        private string buttonCheckVisibility;
-        public string ButtonCheckVisibility
-        {
-            get => buttonCheckVisibility; 
+            get => isShowButtonStart; 
             set 
             {
-                buttonCheckVisibility = value; 
-                OnPropertyChanged(nameof(ButtonCheckVisibility)); 
+                isShowButtonStart = value; 
+                OnPropertyChanged(nameof(IsShowButtonStart)); 
             }
         }
-        private string textBlockVisible;
-        public string TextBlockVisible 
+        private bool isShowButtonCheck;
+        public bool IsShowButtonCheck
         {
-            get => textBlockVisible;
+            get => isShowButtonCheck; 
             set 
-            { 
-                textBlockVisible = value;
-                OnPropertyChanged(nameof(TextBlockVisible));
+            {
+                isShowButtonCheck = value; 
+                OnPropertyChanged(nameof(IsShowButtonCheck)); 
+            }
+        }
+        private bool isShowTextBlock;
+        public bool IsShowTextBlock
+        {
+            get => isShowTextBlock;
+            set 
+            {
+                isShowTextBlock = value;
+                OnPropertyChanged(nameof(IsShowTextBlock));
+            }
+        }
+        private bool isShowItemsControl;
+        public bool IsShowItemsControl
+        {
+            get => isShowItemsControl;
+            set
+            {
+                isShowItemsControl = value;
+                OnPropertyChanged(nameof(IsShowItemsControl));
             }
         }
         private string textBlockText;
@@ -85,16 +99,6 @@ namespace PracticeTask.ViewModel
             {
                 textBlockText = value; 
                 OnPropertyChanged(nameof(TextBlockText));
-            }
-        }
-        private string itemsControlVisibility;
-        public string ItemsControlVisibility
-        {
-            get => itemsControlVisibility; 
-            set 
-            { 
-                itemsControlVisibility = value; 
-                OnPropertyChanged(nameof(ItemsControlVisibility));
             }
         }
         private double heightItemsControl;
@@ -139,7 +143,7 @@ namespace PracticeTask.ViewModel
         public void Timer_Tick(object sender, EventArgs e)
         {
             interaction.Timer_Tick(Circles, ref IsStop, ref IsCompleted, HeightItemsControl, WidthItemsControl);
-            if (IsStop >= 500)
+            if (IsStop >= Setting.TimeTest)
             {
                 IsStarted = false;
                 for (int i = 0; i < Circles.Count; i++)
@@ -147,9 +151,9 @@ namespace PracticeTask.ViewModel
                     Circles[i].VectorX = 0;
                     Circles[i].VectorY = 0;
                 }
-                ButtonStartVisibility = "Collapsed";
-                ButtonCheckVisibility = "Visible";
-                ItemsControlVisibility = "Visible";
+                IsShowButtonStart = false;
+                IsShowButtonCheck = true;
+                IsShowItemsControl = true;
                 IsStop = 0;
                 Timer.Stop();
             }
@@ -169,16 +173,16 @@ namespace PracticeTask.ViewModel
             }
             if (temp == Setting.CountActiveCircle)
             {
-                ItemsControlVisibility = "Collapsed";
-                TextBlockVisible = "Visible";
+                IsShowItemsControl = false;
+                IsShowTextBlock = true;
                 TextBlockText = "Повезло";
                 LevelOfDifficultyUp++;
                 IncreasingLevelOfDifficulty();
             }
             else
             {
-                ItemsControlVisibility = "Collapsed";
-                TextBlockVisible = "Visible";
+                IsShowItemsControl = false;
+                IsShowTextBlock = true;
                 TextBlockText = "Не повезло";
                 LevelOfDifficultyDown++;
                 ReducingLevelOfDifficulty();
@@ -202,16 +206,35 @@ namespace PracticeTask.ViewModel
                     Circles[i].IsActiveColor = false;
                 }
             }
-            ButtonStartVisibility = "Visible";
-            ItemsControlVisibility = "Visible";
-            ButtonCheckVisibility = "Collapsed";
-            TextBlockVisible = "Collapsed";
-            IsRight = false;
+            IsShowButtonStart = true;
+            IsShowItemsControl = true;
+            IsShowButtonCheck = false;
+            IsShowTextBlock = false;
             IsCompleted = true;
 
             interaction.Timer_Restart(Circles, IsRight);
+            if (IsRight && Setting.WindowView == 1 && IsIncreasingLevelOfDifficulty)
+            {
+                IsIncreasingLevelOfDifficulty = !IsIncreasingLevelOfDifficulty;
+                DelegateCommand command = new DelegateCommand(AddNewCircle3DAction);
+                command.Execute();
+            }
+            if (!IsRight && Setting.WindowView == 1 && IsReducingLevelOfDifficulty)
+            {
+                IsReducingLevelOfDifficulty = !IsReducingLevelOfDifficulty;
+                DelegateCommand command = new DelegateCommand(DeleteCircle3DAction);
+                command.Execute();
+            }
+
+            IsRight = false;
             TimerRestart.Stop();
         }
+
+        private DelegateCommand addNewCircle3D; // Комманды для добавления и удаления Circle3D
+        private DelegateCommand deleteCircle3D;
+        public DelegateCommand AddNewCircle3D => addNewCircle3D ?? (addNewCircle3D = new DelegateCommand(AddNewCircle3DAction));
+        public DelegateCommand DeleteCircle3D => deleteCircle3D ?? (deleteCircle3D = new DelegateCommand(DeleteCircle3DAction));
+
         public void CreateElipse()
         {
             if (Setting.WindowView == 0)
@@ -236,6 +259,7 @@ namespace PracticeTask.ViewModel
                 Setting.CountCircle += 1;
                 IsRight = true;
                 LevelOfDifficultyUp = 0;
+                IsIncreasingLevelOfDifficulty = true;
             }
         }
         private void ReducingLevelOfDifficulty()
@@ -254,6 +278,7 @@ namespace PracticeTask.ViewModel
                 {
                     Circles.RemoveAt(Circles.Count - 1);
                     LevelOfDifficultyDown = 0;
+                    IsReducingLevelOfDifficulty = true;
                 }
                 LevelOfDifficultyUp = 0;
             }
@@ -265,13 +290,16 @@ namespace PracticeTask.ViewModel
             Setting = viewModel.Setting;
             IsStarted = false;
             IsChecked = false;
-            ButtonStartVisibility = "Visible";
-            ButtonCheckVisibility = "Collapsed";
-            TextBlockVisible = "Collapsed";
+            IsShowItemsControl = true;
+            IsShowButtonStart = true;
+            IsShowButtonCheck = false;
+            IsShowTextBlock = false;
             IsStop = 0;
             IsCompleted = false;
             LevelOfDifficultyUp = 0;
             LevelOfDifficultyDown = 0;
+            IsIncreasingLevelOfDifficulty = false;
+            IsReducingLevelOfDifficulty = false;
 
             if (Setting.WindowView == 0) // Выбор между 2D и 3D шариками
             {

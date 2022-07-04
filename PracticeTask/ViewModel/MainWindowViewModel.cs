@@ -51,6 +51,7 @@ namespace PracticeTask.ViewModel
                                   jsonFileService.OpenSetting(fileSetting).CountActiveCircle,
                                   jsonFileService.OpenSetting(fileSetting).Speed,
                                   jsonFileService.OpenSetting(fileSetting).SizeCircle,
+                                  jsonFileService.OpenSetting(fileSetting).TimeTest,
                                   jsonFileService.OpenSetting(fileSetting).WindowView);
         }
     }

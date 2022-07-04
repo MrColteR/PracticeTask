@@ -13,6 +13,7 @@
         WindowState="Maximized">
     <Window.Resources>
         <convHeight:ConverterSize x:Key="multivalueConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -27,7 +28,7 @@
                       Grid.ColumnSpan="2"
                       Grid.Row="0"
                       ItemsSource="{Binding Circles}"
-                      Visibility="{Binding ItemsControlVisibility}">
+                      Visibility="{Binding IsShowItemsControl, Converter={StaticResource BooleanToVisibilityConverter}}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Canvas x:Name="Canvas">
@@ -78,18 +79,18 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    FontSize="40"
-                   Visibility="{Binding TextBlockVisible}">
+                   Visibility="{Binding IsShowTextBlock, Converter={StaticResource BooleanToVisibilityConverter}}">
             
         </TextBlock>
         <Button Grid.Column="0"
                 Grid.Row="1"
                 Content="Начать"
-                Visibility="{Binding ButtonStartVisibility}"  
+                Visibility="{Binding IsShowButtonStart, Converter={StaticResource BooleanToVisibilityConverter}}"  
                 Command="{Binding Start}"/>
         <Button Grid.Column="0"
                 Grid.Row="1"
                 Content="Проверить"
-                Visibility="{Binding ButtonCheckVisibility}"
+                Visibility="{Binding IsShowButtonCheck, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Command="{Binding Check}"/>
         <Button Grid.Column="1"
                 Grid.Row="2"

@@ -129,30 +129,29 @@ namespace PracticeTask.Factory
                 }
                 IsCompleted = false;
             }
-
-            for (int i = 0; i < Сircles.Count; i++) // Снизу и слева норм
+            for (int i = 0; i < Сircles.Count; i++)
             {
-                if (Сircles[i].X <= -2 + 0.1)
+                if (Сircles[i].X <= -2 + Сircles[i].SizeCircle)
                 {
                     Сircles[i].VectorX = -Сircles[i].VectorX;
                 }
-                if (Сircles[i].X >= 2 - 0.1)
+                if (Сircles[i].X >= 2 - Сircles[i].SizeCircle)
                 {
                     Сircles[i].VectorX = -Сircles[i].VectorX;
                 }
-                if (Сircles[i].Y <= -2 + 0.1)
+                if (Сircles[i].Y <= -1 + Сircles[i].SizeCircle)
                 {
                     Сircles[i].VectorY = -Сircles[i].VectorY;
                 }
-                if (Сircles[i].Y >= 2 - 0.1)
+                if (Сircles[i].Y >= 1 - Сircles[i].SizeCircle)
                 {
                     Сircles[i].VectorY = -Сircles[i].VectorY;
                 }
-                if (Сircles[i].Z <= -2 + 0.1)
+                if (Сircles[i].Z <= -1 + Сircles[i].SizeCircle)
                 {
                     Сircles[i].VectorZ = -Сircles[i].VectorZ;
                 }
-                if (Сircles[i].Z >= 2 - 0.1)
+                if (Сircles[i].Z >= 1 - Сircles[i].SizeCircle)
                 {
                     Сircles[i].VectorZ = -Сircles[i].VectorZ;
                 }
@@ -163,17 +162,14 @@ namespace PracticeTask.Factory
                     if (j != i)
                     {
                         // Расстояние между шариками
-                        double Dx = Сircles[j].X * widthItemsControl
-                                  - Сircles[i].X * widthItemsControl;
-                        double Dy = Сircles[j].Y * heightItemsControl
-                                  - Сircles[i].Y * heightItemsControl;
-                        double Dz = Сircles[j].Z * heightItemsControl
-                                  - Сircles[i].Z * heightItemsControl;
+                        double Dx = Сircles[j].X - Сircles[i].X;
+                        double Dy = Сircles[j].Y - Сircles[i].Y;
+                        double Dz = Сircles[j].Z - Сircles[i].Z;
                         double d = Math.Sqrt(Dx * Dx + Dy * Dy + Dz * Dz);
                         double sin = Dx / d;
                         double cos = Dy / d;
-
-                        if (d <= setting.SizeCircle * widthItemsControl)
+                         
+                        if (d <= setting.SizeCircle * 2)
                         {
                             // Коэфицент K касательной между шариками
                             double kIncline = (Сircles[i].Y - Сircles[j].Y)
@@ -190,10 +186,10 @@ namespace PracticeTask.Factory
                             double unitVectorY_i = Math.Sin(angleIncline_i);
 
                             // Проверка на вхождение шариков друг в друга
-                            double vectorLenght_j = Сircles[j].VectorX * widthItemsControl * sin
-                                                  + Сircles[j].VectorY * heightItemsControl * cos;
-                            double vectorLenght_i = Сircles[i].VectorX * widthItemsControl * sin
-                                                  + Сircles[i].VectorY * heightItemsControl * cos;
+                            double vectorLenght_j = Сircles[j].VectorX * sin
+                                                  + Сircles[j].VectorY * cos;
+                            double vectorLenght_i = Сircles[i].VectorX * sin
+                                                  + Сircles[i].VectorY * cos;
                             double dt = (setting.SizeCircle - d) / (vectorLenght_j / vectorLenght_i);
                             if (dt > 1)
                             {
@@ -203,10 +199,10 @@ namespace PracticeTask.Factory
                             {
                                 dt = 1;
                             }
-                            Сircles[i].X -= Сircles[i].VectorX * dt;
-                            Сircles[j].X -= Сircles[j].VectorX * dt;
-                            Сircles[i].X -= Сircles[i].VectorX * dt;
-                            Сircles[j].X -= Сircles[j].VectorX * dt;
+                            Сircles[i].X -= 2 * Сircles[i].VectorX * dt;
+                            Сircles[j].X -= 2 * Сircles[j].VectorX * dt;
+                            Сircles[i].X -= 2 * Сircles[i].VectorX * dt;
+                            Сircles[j].X -= 2 * Сircles[j].VectorX * dt;
 
                             // Новые координаты векторов (Отражаем по Y)
                             double vX_j = Сircles[j].X - (Сircles[j].X + Сircles[i].X) / 2;
@@ -235,10 +231,9 @@ namespace PracticeTask.Factory
                             Сircles[j].VectorZ = -Сircles[i].VectorZ;
                         }
                     }
-
-                    Сircles[i].X += 5 * Сircles[i].VectorX;
-                    Сircles[i].Y += 5 * Сircles[i].VectorY;
-                    Сircles[i].Z += 5 * Сircles[i].VectorZ;
+                    Сircles[i].X += Сircles[i].VectorX;
+                    Сircles[i].Y += Сircles[i].VectorY;
+                    Сircles[i].Z += Сircles[i].VectorZ;
                     IsStop++;
                 }
             }
