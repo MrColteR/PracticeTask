@@ -12,16 +12,77 @@ namespace PracticeTask.Model.Base
     [DataContract]
     public abstract class Circle : INotifyPropertyChanged
     {
-        public virtual double X { get; set; }
-        public virtual double Y { get; set; }
-        public virtual double Z { get; set; }
+        private double x;
+        public double X 
+        {
+            get => x;
+            set
+            {
+                x = value;
+                OnPropertyChanged(nameof(X));
+            }
+        }
+        private double y;
+        public double Y
+        {
+            get => y;
+            set
+            {
+                y = value;
+                OnPropertyChanged(nameof(Y));
+            }
+        }
+        private double z;
+        public double Z
+        {
+            get => z;
+            set
+            {
+                z = value;
+                OnPropertyChanged(nameof(Z));
+            }
+        }
+        private double vectorX;
+        public double VectorX
+        {
+            get => vectorX;
+            set
+            {
+                vectorX = value;
+                OnPropertyChanged(nameof(VectorX));
+            }
+        }
+        private double vectorY;
+        public double VectorY
+        {
+            get => vectorY;
+            set
+            {
+                vectorY = value;
+                OnPropertyChanged(nameof(VectorY));
+            }
+        }
+        private double vectorZ;
+        public double VectorZ
+        {
+            get => vectorZ;
+            set
+            {
+                vectorZ = value;
+                OnPropertyChanged(nameof(VectorZ));
+            }
+        }
+        private double sizeCircle;
+        public double SizeCircle
+        {
+            get => sizeCircle;
+            set
+            {
+                sizeCircle = value;
+            }
+        }
         public virtual bool IsActive { get; set; }
         public virtual bool IsActiveColor { get; set; }
-        public virtual double SizeCircle { get; set; }
-        public virtual double VectorX { get; set; }
-        public virtual double VectorY { get; set; }
-        public virtual double VectorZ { get; set; }
-        public virtual Brush Material3DCircle { get; set; }
         public Circle(bool isActive, bool isActiveColor)
         {
             IsActive = isActive;

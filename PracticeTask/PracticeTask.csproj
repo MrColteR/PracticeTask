@@ -63,6 +63,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter3D.cs" />
+    <Compile Include="ConverterMaterial3D.cs" />
     <Compile Include="ConverterSize.cs" />
     <Compile Include="Factory\Circle2DInteraction.cs" />
     <Compile Include="Factory\Circle3DInteraction.cs" />

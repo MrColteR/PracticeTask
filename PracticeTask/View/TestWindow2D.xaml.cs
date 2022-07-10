@@ -36,8 +36,8 @@ namespace PracticeTask.View
 
         private void TestWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            viewModel.HeightItemsControl = ItemsControl.ActualHeight;
-            viewModel.WidthItemsControl = ItemsControl.ActualWidth;
+            viewModel.HeightScreen = ItemsControl.ActualHeight;
+            viewModel.WidthScreen = ItemsControl.ActualWidth;
         }
 
         private void Ellipse_PreviewMouseDown(object sender, MouseButtonEventArgs e)

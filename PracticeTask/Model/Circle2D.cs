@@ -10,66 +10,6 @@ namespace PracticeTask.Model
 {
     public class Circle2D : Circle
     {
-        private double x;
-        public override double X 
-        { 
-            get => x;
-            set 
-            {
-                x = value;
-                OnPropertyChanged(nameof(X));
-            }
-        }
-        private double y;
-        public override double Y
-        {
-            get => y;
-            set
-            {
-                y = value;
-                OnPropertyChanged(nameof(Y));
-            }
-        }
-        private double vectorX;
-        public override double VectorX
-        {
-            get => vectorX;
-            set
-            {
-                vectorX = value;
-                OnPropertyChanged(nameof(VectorX));
-            }
-        }
-        private double vectorY;
-        public override double VectorY
-        {
-            get => vectorY;
-            set
-            {
-                vectorY = value;
-                OnPropertyChanged(nameof(VectorY));
-            }
-        }
-        private int height;
-        public int Height
-        {
-            get => height;
-            set
-            {
-                height = value;
-                OnPropertyChanged(nameof(Height));
-            }
-        }
-        private int width;
-        public int Width
-        {
-            get => width;
-            set
-            {
-                width = value;
-                OnPropertyChanged(nameof(Width));
-            }
-        }
         private bool isActive;
         public override bool IsActive
         {
@@ -78,15 +18,6 @@ namespace PracticeTask.Model
             {
                 isActive = value;
                 OnPropertyChanged(nameof(IsActive));
-            }
-        }
-        private double sizeCircle;
-        public override double SizeCircle
-        {
-            get => sizeCircle;
-            set
-            {
-                sizeCircle = value;
             }
         }
         private bool isActiveColor;

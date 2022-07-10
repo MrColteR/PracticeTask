@@ -38,12 +38,16 @@ namespace PracticeTask.View
         }
         private void TestWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            viewModel.HeightItemsControl = ActualHeight;
-            viewModel.WidthItemsControl = ActualWidth;
+            viewModel.HeightScreen = ActualHeight;
+            viewModel.WidthScreen = ActualWidth;
 
             for (int i = 0; i < viewModel.Circles.Count; i++) // Привязка Circle3D к Viewport2DVisual3D
             {
-                Binding binding = new Binding("Material3DCircle") { Source = viewModel.Circles[i] };
+                Binding binding = new Binding("IsActiveMaterial") 
+                {
+                    Source = viewModel.Circles[i],
+                    Converter = new ConverterMaterial3D()
+                };
 
                 MultiBinding multiBinding = new MultiBinding();
                 multiBinding.Converter = new Converter3D();
@@ -64,7 +68,11 @@ namespace PracticeTask.View
 
             viewModel.AddNewCircle3DAction += () => // Добавление Circle3D
             {
-                Binding binding = new Binding("Material3DCircle") { Source = viewModel.Circles[viewModel.Circles.Count - 1] };
+                Binding binding = new Binding("IsActiveMaterial")
+                {
+                    Source = viewModel.Circles[viewModel.Circles.Count - 1],
+                    Converter = new ConverterMaterial3D()
+                };
 
                 MultiBinding multiBinding = new MultiBinding();
                 multiBinding.Converter = new Converter3D();

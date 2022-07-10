@@ -28,7 +28,7 @@
                       Grid.ColumnSpan="2"
                       Grid.Row="0"
                       ItemsSource="{Binding Circles}"
-                      Visibility="{Binding IsShowItemsControl, Converter={StaticResource BooleanToVisibilityConverter}}">
+                      Visibility="{Binding IsShowItemsControl, Converter={StaticResource BooleanToVisibilityConverter}}" >
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Canvas x:Name="Canvas">
@@ -80,7 +80,7 @@
                    HorizontalAlignment="Center"
                    FontSize="40"
                    Visibility="{Binding IsShowTextBlock, Converter={StaticResource BooleanToVisibilityConverter}}">
-            
+
         </TextBlock>
         <Button Grid.Column="0"
                 Grid.Row="1"

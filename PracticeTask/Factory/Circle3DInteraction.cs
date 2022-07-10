@@ -115,7 +115,7 @@ namespace PracticeTask.Factory
 
             return result;
         }
-        public void Timer_Tick(IEnumerable<Circle> circles, ref int IsStop, ref bool IsCompleted, double heightItemsControl, double widthItemsControl)
+        public void Timer_Tick(IEnumerable<Circle> circles, ref int cycleTime, ref bool IsCompleted, double heightScreen, double widthScreen)
         {
             ObservableCollection<Circle> Сircles = circles as ObservableCollection<Circle>;
             if (IsCompleted) // Изменения векторов скорости при 2 и последующих запусках
@@ -247,7 +247,7 @@ namespace PracticeTask.Factory
                     Сircles[i].X += Сircles[i].VectorX;
                     Сircles[i].Y += Сircles[i].VectorY;
                     Сircles[i].Z += Сircles[i].VectorZ;
-                    IsStop++;
+                    cycleTime++;
                 }
             }
         }

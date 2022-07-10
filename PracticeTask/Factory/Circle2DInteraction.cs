@@ -100,7 +100,7 @@ namespace PracticeTask.Factory
 
             return result;
         }
-        public void Timer_Tick(IEnumerable<Circle> circles, ref int IsStop, ref bool IsCompleted, double heightItemsControl, double widthItemsControl)
+        public void Timer_Tick(IEnumerable<Circle> circles, ref int cycleTime, ref bool IsCompleted, double heightScreen, double widthScreen)
         {
             ObservableCollection<Circle> Circles = circles as ObservableCollection<Circle>;
             if (IsCompleted) // Изменения векторов скорости при 2 и последующих запусках
@@ -142,15 +142,14 @@ namespace PracticeTask.Factory
                     if (j != i)
                     {
                         // Расстояние между шариками
-                        double Dx = Circles[j].X * widthItemsControl
-                                  - Circles[i].X * widthItemsControl;
-                        double Dy = Circles[j].Y * heightItemsControl
-                                  - Circles[i].Y * heightItemsControl;
+                        double Dx = Circles[j].X * widthScreen - Circles[i].X * widthScreen;   // Если убирать высоту и ширину шарики в некоторых случаях шарики заходят друг в друга
+                        double Dy = Circles[j].Y * heightScreen - Circles[i].Y * heightScreen; // Тут какой то баг с Canvas тк если давать шарикам координаты по Y равные 1 они находяться за кнопками,
+                                                                                               // Хотя Canvas не заезжает на область в которой находяться кнопки.
                         double d = Math.Sqrt(Dx * Dx + Dy * Dy);
                         double sin = Dx / d;
                         double cos = Dy / d;
 
-                        if (d <= setting.SizeCircle * widthItemsControl)
+                        if (d <= setting.SizeCircle * widthScreen)
                         {
                             // Коэфицент K касательной между шариками
                             double kIncline = (Circles[i].Y - Circles[j].Y) 
@@ -167,10 +166,8 @@ namespace PracticeTask.Factory
                             double unitVectorY_i = Math.Sin(angleIncline_i);
 
                             // Проверка на вхождение шариков друг в друга
-                            double vectorLenght_j = Circles[j].VectorX * widthItemsControl * sin 
-                                                  + Circles[j].VectorY * heightItemsControl * cos;
-                            double vectorLenght_i = Circles[i].VectorX * widthItemsControl * sin 
-                                                  + Circles[i].VectorY * heightItemsControl * cos;
+                            double vectorLenght_j = Circles[j].VectorX * sin + Circles[j].VectorY * cos;
+                            double vectorLenght_i = Circles[i].VectorX * sin + Circles[i].VectorY * cos;
                             double dt = (setting.SizeCircle - d) / (vectorLenght_j / vectorLenght_i);
                             if (dt > 1)
                             {
@@ -211,7 +208,7 @@ namespace PracticeTask.Factory
                 }
                 Circles[i].X += Circles[i].VectorX;
                 Circles[i].Y += Circles[i].VectorY;
-                IsStop++;
+                cycleTime++;
             }
         }
         public void Timer_Restart(IEnumerable<Circle> circles, bool IsRight)
